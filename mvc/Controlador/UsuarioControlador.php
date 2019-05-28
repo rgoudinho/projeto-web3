@@ -9,4 +9,9 @@ class UsuarioControlador extends Controlador
     {
         $this->visao('usuario/perfil.php');
     }
+
+    public function cadastrar()
+    {
+        $this->visao('usuario/cadastrar.php');
+    }
 }
