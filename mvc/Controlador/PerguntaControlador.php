@@ -31,19 +31,19 @@ class PerguntaControlador extends Controlador
         for ($i = 1; $i < 6; $i++) {
             switch ($i) {
                 case 1:
-                    $alternativas[1] = PerguntaControlador::escolheAlternativa($pergunta, $i);
+                    $alternativas[1] = $this->escolheAlternativa($pergunta, $i);
                     break;
                 case 2:
-                    $alternativas[2] = PerguntaControlador::escolheAlternativa($pergunta, $i);
+                    $alternativas[2] = $this->escolheAlternativa($pergunta, $i);
                     break;
                 case 3:
-                    $alternativas[3] = PerguntaControlador::escolheAlternativa($pergunta, $i);
+                    $alternativas[3] = $this->escolheAlternativa($pergunta, $i);
                     break;
                 case 4:
-                    $alternativas[4] = PerguntaControlador::escolheAlternativa($pergunta, $i);
+                    $alternativas[4] = $this->escolheAlternativa($pergunta, $i);
                     break;
                 case 5:
-                    $alternativas[5] = PerguntaControlador::escolheAlternativa($pergunta, $i);
+                    $alternativas[5] = $this->escolheAlternativa($pergunta, $i);
                     break;
             }
         }
@@ -54,23 +54,23 @@ class PerguntaControlador extends Controlador
     {
         do {
             $aleatorio = rand(1, 5);
-        } while (in_array($aleatorio, PerguntaControlador::getAleatorios()));
+        } while (in_array($aleatorio, $this->getAleatorios()));
 
         switch ($aleatorio) {
             case 1:
-                PerguntaControlador::setAleatorios($posicao, $aleatorio);
+                $this->setAleatorios($posicao, $aleatorio);
                 return $pergunta->getAlternativaCorreta();
             case 2:
-                PerguntaControlador::setAleatorios($posicao, $aleatorio);
+                $this->setAleatorios($posicao, $aleatorio);
                 return $pergunta->getAlternativaErrada1();
             case 3:
-                PerguntaControlador::setAleatorios($posicao, $aleatorio);
+                $this->setAleatorios($posicao, $aleatorio);
                 return $pergunta->getAlternativaErrada2();
             case 4:
-                PerguntaControlador::setAleatorios($posicao, $aleatorio);
+                $this->setAleatorios($posicao, $aleatorio);
                 return $pergunta->getAlternativaErrada3();
             case 5:
-                PerguntaControlador::setAleatorios($posicao, $aleatorio);
+                $this->setAleatorios($posicao, $aleatorio);
                 return $pergunta->getAlternativaErrada4();
         }
     }
