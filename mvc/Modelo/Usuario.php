@@ -6,26 +6,28 @@ use \Framework\DW3BancoDeDados;
 
 class Usuario extends Modelo
 {
-    const BUSCAR_USUARIO_ID = 'SELECT * FROM usuario WHERE id_usuario = ?';
-    const BUSCAR_USUARIO_NOME = 'SELECT * FROM usuario WHERE nome = ?';
-    const INSERIR = 'INSERT INTO usuario(nome, email, senha) VALUES (?,?,?)';
+    const BUSCAR_USUARIO_ID = 'SELECT * FROM usuarios WHERE id = ?';
+    const BUSCAR_USUARIO_EMAIL = 'SELECT * FROM usuarios WHERE email = ?';
+    const INSERIR = 'INSERT INTO usuarios(nome, email, senha) VALUES (?,?,?)';
 
     private $id_usuario;
     private $nome;
     private $senha;
+    private $senhaPlana;
     private $email;
 
     public function __construct(
         $nome,
         $email,
-        $senha,
+        $senhaPlana,
         $id_usuario = null
     )
     {
         $this->email = $email;
         $this->id_usuario = $id_usuario;
         $this->nome = $nome;
-        $this->senha = $senha;
+        $this->senhaPlana = $senhaPlana;
+        $this->senha = password_hash($senhaPlana, PASSWORD_BCRYPT);
     }
 
     public function getId_usuario()
@@ -68,6 +70,11 @@ class Usuario extends Modelo
         $this->email = $email;
     }
 
+    public function verificarSenha($senhaPlana)
+    {
+        return password_verify($senhaPlana, $this->senha);
+    }
+
     public function inserir(){
         DW3BancoDeDados::getPdo()->beginTransaction();
         $comando = DW3BancoDeDados::prepare(self::INSERIR);
@@ -77,6 +84,25 @@ class Usuario extends Modelo
         $comando->execute();
         $this->id = DW3BancoDeDados::getPdo()->lastInsertId();
         DW3BancoDeDados::getPdo()->commit();
+    }
+
+    public static function buscarEmail($email)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_USUARIO_EMAIL);
+        $comando->bindValue(1, $email, PDO::PARAM_STR);
+        $comando->execute();
+        $registro = $comando->fetch();
+        $usuario = null;
+        if ($registro) {
+            $usuario = new Usuario(
+                $registro['nome'],
+                $registro['email'],
+                null,
+                $registro['id']
+            );
+            $usuario->senha = $registro['senha'];
+        }
+        return $usuario;
     }
 
 }

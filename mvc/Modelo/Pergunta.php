@@ -6,7 +6,7 @@ use \Framework\DW3BancoDeDados;
 
 class Pergunta extends Modelo
 {
-    const BUSCAR_TODOS = 'SELECT * FROM pergunta';
+    const BUSCAR_TODOS = 'SELECT * FROM perguntas';
 
     private $id;
     private $pergunta;

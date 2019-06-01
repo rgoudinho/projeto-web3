@@ -11,7 +11,7 @@ $rotas = [
     ],
 
     '/usuario' => [
-        'POST' => '\Controlador\UsuarioControlador#armazenar',
+        'POST' => '\Controlador\UsuarioControlador#verificarCampos',
     ],
 
     '/usuario/perfil' => [
@@ -21,4 +21,9 @@ $rotas = [
     '/usuario/cadastrar' => [
         'GET' => '\Controlador\UsuarioControlador#cadastrar',
     ],
+
+    '/usuario/login' => [
+        'GET' => '\Controlador\LoginControlador#login',
+        'POST' => '\Controlador\LoginControlador#verificar',
+    ]
 ];
