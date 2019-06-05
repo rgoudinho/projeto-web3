@@ -2,7 +2,7 @@
 namespace Controlador;
 
 use \Modelo\Usuario;
-use \Framework\DW3Sessao;
+use \framework\DW3Sessao;
 
 class LoginControlador extends Controlador
 {
@@ -15,6 +15,7 @@ class LoginControlador extends Controlador
     {
         $usuario = Usuario::buscarEmail($_POST['email']);
         if ($usuario && $usuario->verificarSenha($_POST['senha'])) {
+            DW3Sessao::set('usuario', $usuario->getId_usuario());
             $this->redirecionar(URL_RAIZ . 'usuario/perfil');
         } else {
             $this->visao('login/criar.php');

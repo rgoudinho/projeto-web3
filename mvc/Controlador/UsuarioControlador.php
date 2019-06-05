@@ -2,12 +2,17 @@
 namespace Controlador;
 
 use \Modelo\Usuario;
+use \framework\DW3Sessao;
 
 class UsuarioControlador extends Controlador
 {
     public function perfil()
     {
-        $this->visao('usuario/perfil.php');
+        $this->verificarLogado();
+        $this->visao('usuario/perfil.php', [
+            'usuario' => $this->getUsuario(),
+            'mensagem' => DW3Sessao::getFlash('mensagem', null)
+        ]);
     }
 
     public function cadastrar()
@@ -31,7 +36,7 @@ class UsuarioControlador extends Controlador
     public function armazenar()
     {
         $usuario = new Usuario($_POST['nome'], $_POST['email'], $_POST['senha']);
-        $usuario->inserir();
-        # perguntar ao professor pq no codigo dele ele utilisa o salvar q somente chama o inserir.
+        $usuario->salvar();
+        $this->redirecionar(URL_RAIZ . 'usuario/perfil');
     }
 }

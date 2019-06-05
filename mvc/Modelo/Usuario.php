@@ -75,6 +75,11 @@ class Usuario extends Modelo
         return password_verify($senhaPlana, $this->senha);
     }
 
+    public function salvar()
+    {
+        $this->inserir();
+    }
+
     public function inserir(){
         DW3BancoDeDados::getPdo()->beginTransaction();
         $comando = DW3BancoDeDados::prepare(self::INSERIR);
@@ -103,6 +108,20 @@ class Usuario extends Modelo
             $usuario->senha = $registro['senha'];
         }
         return $usuario;
+    }
+
+    public static function buscarId($id)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_USUARIO_ID);
+        $comando->bindValue(1, $id, PDO::PARAM_INT);
+        $comando->execute();
+        $registro = $comando->fetch();
+        return new Usuario(
+            $registro['nome'],
+            $registro['email'],
+            null,
+            $registro['id']
+        );
     }
 
 }

@@ -10,6 +10,10 @@ $rotas = [
         'POST' => '\Controlador\PerguntaControlador#armazenar',
     ],
 
+    '/perguntas/criar' => [
+        'GET' => '\Controlador\PerguntaControlador#criar',
+    ],
+
     '/usuario' => [
         'POST' => '\Controlador\UsuarioControlador#verificarCampos',
     ],
@@ -25,5 +29,5 @@ $rotas = [
     '/usuario/login' => [
         'GET' => '\Controlador\LoginControlador#login',
         'POST' => '\Controlador\LoginControlador#verificar',
-    ]
+    ],
 ];

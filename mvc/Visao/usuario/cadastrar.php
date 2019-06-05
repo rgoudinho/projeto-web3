@@ -1,5 +1,5 @@
 
-<div class="col-xs-12 col-sm-8 col-md-4 centraliza">
+<div class="col-xs-12 col-sm-8 col-md-4 centraliza-login-e-cadastro">
     <form action="<?= URL_RAIZ . 'usuario' ?>" method="post">
         <div class="form-group">
             <label for="nome">Nome</label>

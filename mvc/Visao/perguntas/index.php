@@ -14,7 +14,7 @@
                     <a class="nav-link" href="usuario/perfil">Perfil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-red" href="#">Criar pergunta</a>
+                    <a class="nav-link text-red" href="perguntas/criar">Criar pergunta</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-red" href="usuario/cadastrar">Cadastrar</a>
@@ -28,8 +28,6 @@
     </nav>
     <table class="table">
         <?php
-        use Controlador\PerguntaControlador;
-
         if (empty($perguntas)) : ?>
             <tr>
                 <td colspan="99" class="text-center">Nenhum pergunta encontrada encontrada.</td>
@@ -45,8 +43,7 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <?php
-                    $controlador = new PerguntaControlador();
-                    $alt = $controlador->embaralhaPerguntas($pergunta);
+                    $alt = $pergunta->embaralhaPerguntas($pergunta);
                     ?>
                     <li class="list-group-item"><?= $alt[1] ?></li>
                     <li class="list-group-item"><?= $alt[2] ?></li>

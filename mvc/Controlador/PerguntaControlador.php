@@ -3,19 +3,9 @@ namespace Controlador;
 
 use \Modelo\Pergunta;
 
+
 class PerguntaControlador extends Controlador
 {
-    private $aleatorios = [];
-
-    public function getAleatorios()
-    {
-        return $this->aleatorios;
-    }
-
-    public function setAleatorios($posicao, $aleatorio)
-    {
-        $this->aleatorios[$posicao] = $aleatorio;
-    }
 
     public function index()
     {
@@ -25,54 +15,9 @@ class PerguntaControlador extends Controlador
         ]);
     }
 
-    public function embaralhaPerguntas($pergunta)
+    public function criar() 
     {
-        $alternativas = [];
-        for ($i = 1; $i < 6; $i++) {
-            switch ($i) {
-                case 1:
-                    $alternativas[1] = $this->escolheAlternativa($pergunta, $i);
-                    break;
-                case 2:
-                    $alternativas[2] = $this->escolheAlternativa($pergunta, $i);
-                    break;
-                case 3:
-                    $alternativas[3] = $this->escolheAlternativa($pergunta, $i);
-                    break;
-                case 4:
-                    $alternativas[4] = $this->escolheAlternativa($pergunta, $i);
-                    break;
-                case 5:
-                    $alternativas[5] = $this->escolheAlternativa($pergunta, $i);
-                    break;
-            }
-        }
-        return $alternativas;
-    }
-
-    public function escolheAlternativa($pergunta, $posicao)
-    {
-        do {
-            $aleatorio = rand(1, 5);
-        } while (in_array($aleatorio, $this->getAleatorios()));
-
-        switch ($aleatorio) {
-            case 1:
-                $this->setAleatorios($posicao, $aleatorio);
-                return $pergunta->getAlternativaCorreta();
-            case 2:
-                $this->setAleatorios($posicao, $aleatorio);
-                return $pergunta->getAlternativaErrada1();
-            case 3:
-                $this->setAleatorios($posicao, $aleatorio);
-                return $pergunta->getAlternativaErrada2();
-            case 4:
-                $this->setAleatorios($posicao, $aleatorio);
-                return $pergunta->getAlternativaErrada3();
-            case 5:
-                $this->setAleatorios($posicao, $aleatorio);
-                return $pergunta->getAlternativaErrada4();
-        }
+        $this->visao('perguntas/criar.php');
     }
 
     // public function mostrar($id)

@@ -87,6 +87,11 @@ class Pergunta extends Modelo
         return $this->alternativaErrada4;
     }
 
+    public function getAleatorios()
+    {
+        return $this->aleatorios;
+    }
+
     public function setId($id)
     {
         $this->id = $id;
@@ -132,6 +137,11 @@ class Pergunta extends Modelo
         $this->alternativaErrada4 = $alternativaErrada4;
     }
 
+    public function setAleatorios($posicao, $aleatorio)
+    {
+        $this->aleatorios[$posicao] = $aleatorio;
+    }
+
     public static function buscarTodos()
     {
         $registros = DW3BancoDeDados::query(self::BUSCAR_TODOS);
@@ -150,5 +160,55 @@ class Pergunta extends Modelo
             );
         }
         return $objetos;
+    }
+
+    public function embaralhaPerguntas($pergunta)
+    {
+        $alternativas = [];
+        for ($i = 1; $i < 6; $i++) {
+            switch ($i) {
+                case 1:
+                    $alternativas[1] = $this->escolheAlternativa($pergunta, $i);
+                    break;
+                case 2:
+                    $alternativas[2] = $this->escolheAlternativa($pergunta, $i);
+                    break;
+                case 3:
+                    $alternativas[3] = $this->escolheAlternativa($pergunta, $i);
+                    break;
+                case 4:
+                    $alternativas[4] = $this->escolheAlternativa($pergunta, $i);
+                    break;
+                case 5:
+                    $alternativas[5] = $this->escolheAlternativa($pergunta, $i);
+                    break;
+            }
+        }
+        return $alternativas;
+    }
+
+    public function escolheAlternativa($pergunta, $posicao)
+    {
+        do {
+            $aleatorio = rand(1, 5);
+        } while (in_array($aleatorio, $this->getAleatorios()));
+
+        switch ($aleatorio) {
+            case 1:
+                $this->setAleatorios($posicao, $aleatorio);
+                return $pergunta->getAlternativaCorreta();
+            case 2:
+                $this->setAleatorios($posicao, $aleatorio);
+                return $pergunta->getAlternativaErrada1();
+            case 3:
+                $this->setAleatorios($posicao, $aleatorio);
+                return $pergunta->getAlternativaErrada2();
+            case 4:
+                $this->setAleatorios($posicao, $aleatorio);
+                return $pergunta->getAlternativaErrada3();
+            case 5:
+                $this->setAleatorios($posicao, $aleatorio);
+                return $pergunta->getAlternativaErrada4();
+        }
     }
 }
