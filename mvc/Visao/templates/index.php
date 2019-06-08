@@ -15,5 +15,7 @@
     <?php $this->imprimirConteudo() ?>
 
 </body>
+<footer>
+</footer>
 
 </html>

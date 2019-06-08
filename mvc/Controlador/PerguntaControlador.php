@@ -20,6 +20,22 @@ class PerguntaControlador extends Controlador
         $this->visao('perguntas/criar.php');
     }
 
+    public function armazenar()
+    {
+        $pergunta = new Pergunta(
+            $_POST['Pergunta'],
+            $_POST['respostaCorreta'],
+            $_POST['respostaErrada1'],
+            $_POST['respostaErrada2'],
+            $_POST['respostaErrada3'],
+            $_POST['respostaErrada4'],
+            $_POST['dificuldade'],
+            $_POST['foto']
+        );
+        $pergunta->salvar();
+        $this->redirecionar(URL_RAIZ . 'pergunta');
+    }
+
     // public function mostrar($id)
     // {
     //     $pergunta = Pergunta::buscarId($id);
@@ -31,19 +47,6 @@ class PerguntaControlador extends Controlador
     // public function criar()
     // {
     //     $this->visao('perguntas/criar.php');
-    // }
-
-    // public function armazenar()
-    // {
-    //     $pergunta = new Pergunta(
-    //         $_POST['nome'],
-    //         $_POST['endereco'],
-    //         $_POST['telefone1'],
-    //         $_POST['telefone2'],
-    //         $_POST['telefone3']
-    //     );
-    //     $pergunta->salvar();
-    //     $this->redirecionar(URL_RAIZ . 'pergunta');
     // }
 
     // public function editar($id)

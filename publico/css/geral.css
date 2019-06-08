@@ -4,7 +4,18 @@
     top: 100px;
 }
 
-.centraliza-form-perguntas {
-    width: 850px;
-    margin: auto;
+.site {
+    margin-bottom: 20px;
+}
+
+.margin-bottom {
+    margin-bottom: 1em;
+}
+
+.campo-form {
+    width: 250px!important;
+}
+
+.inline {
+    display: inline;
 }

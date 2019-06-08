@@ -1,40 +1,71 @@
- <div class="centraliza-form-perguntas">
-     <h1 class="text-center">Criar perguntas</h1>
-     <!--<nav>
-        <a href="< ?= URL_RAIZ . 'contatos' ?>" class="btn btn-default">Voltar para a listagem</a>
-    </nav>
-    <form action="< ?= URL_RAIZ . 'contatos' ?>" method="post">
-        <div class="form-group">
-            <label class="control-label" for="nome">Nome *</label>
-            <input id="nome" name="nome" class="form-control" autofocus>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="endereco">Endereço</label>
-            <input id="endereco" name="endereco" class="form-control">
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="telefone1">Telefone 1</label>
-            <input id="telefone1" name="telefone1" class="form-control">
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="telefone2">Telefone 2</label>
-            <input id="telefone2" name="telefone2" class="form-control">
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="telefone3">Telefone 3</label>
-            <input id="telefone3" name="telefone3" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary center-block">Cadastrar</button>
-    </form>-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <h1 class="navbar-brand" href="#">Sistema de perguntas</h1>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-     <form>
-         <div class="form-group">
-             <label for="formGroupExampleInput">Example label</label>
-             <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-         </div>
-         <div class="form-group">
-             <label for="formGroupExampleInput2">Another label</label>
-             <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-         </div>
-     </form>
- </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="perguntas">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="usuario/perfil">Perfil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-red" href="perguntas/criar">Criar pergunta</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-red" href="usuario/cadastrar">Cadastrar</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="d-flex justify-content-center">
+    <div class="col-sm-8 col-lg-8">
+        <h1 class="text-center">Criar perguntas</h1>
+        <P>
+            A pergunta deve ser objetiva, deve ter entre 2 a 5 opções de resposta,
+            deve conter o nível de dificuldade e uma foto.
+        </P>
+        <form action="<?= URL_RAIZ . 'index' ?>" method="post" class="margin-bottom" enctype="multipart/form-data>
+            <div class="form-group">
+                <label for="pergunta">Pergunta*</label>
+                <input type="text" class="form-control" id="Pergunta" placeholder="Qual é a capital do estado de São Paulo?">
+            </div>
+            <div class="form-group">
+                <label for="respostaCorreta">Resposta correta*</label>
+                <input type="text" class="form-control" id="respostaCorreta" placeholder="São Paulo">
+            </div>
+            <div class="form-group">
+                <label for="respostaErrada1">Primeira resposta errada*</label>
+                <input type="text" class="form-control" id="respostaErrada1" placeholder="Guarulhos">
+            </div>
+            <div class="form-group">
+                <label for="respostaErrada2">Segunda resposta errada</label>
+                <input type="text" class="form-control" id="respostaErrada2" placeholder="Campinas">
+            </div>
+            <div class="form-group">
+                <label for="respostaErrada3">Terceira resposta errada</label>
+                <input type="text" class="form-control" id="respostaErrada3" placeholder="São Bernardo do Campo">
+            </div>
+            <div class="form-group">
+                <label for="respostaErrada4">Quarta resposta errada</label>
+                <input type="text" class="form-control" id="respostaErrada4" placeholder="Santo André">
+            </div>
+            <label for="my-1 mr-2">Selecione o nivel de dificuldade</label>
+            <select id="dificuldade" class="custom-select col-sm-2 col-lg-2">
+                <option value="facil">Facíl</option>
+                <option value="medio">Médio</option>
+                <option value="dificil">Difícil</option>
+            </select>
+                Selecione uma imagem: <input name="arquivo" type="file" />
+            <br/>
+            <input id="foto" type="submit" value="Salvar"/>
+        </form>
+    </div>
+</div>

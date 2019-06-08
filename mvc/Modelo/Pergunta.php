@@ -7,6 +7,7 @@ use \Framework\DW3BancoDeDados;
 class Pergunta extends Modelo
 {
     const BUSCAR_TODOS = 'SELECT * FROM perguntas';
+    const INSERIR = 'INSERT INTO perguntas(pergunta, alternativaCorreta, alternativaErrada1, alternativaErrada2, alternativaErrada3, alternativaErrada4, dificuldade, foto, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
     private $id;
     private $pergunta;
@@ -17,19 +18,21 @@ class Pergunta extends Modelo
     private $alternativaErrada2;
     private $alternativaErrada3;
     private $alternativaErrada4;
+    private $foto;
 
     private $aleatorios = [];
 
     public function __construct(
-        $id = null,
         $pergunta = null,
-        $id_usuario = null,
-        $dificuldade = null,
         $alternativaCorreta = null,
         $alternativaErrada1 = null,
         $alternativaErrada2 = null,
         $alternativaErrada3 = null,
-        $alternativaErrada4 = null
+        $alternativaErrada4 = null,
+        $dificuldade = null,
+        $foto = null,
+        $id = null,
+        $id_usuario = null
     ) {
         $this->id = $id;
         $this->pergunta = $pergunta;
@@ -40,6 +43,7 @@ class Pergunta extends Modelo
         $this->alternativaErrada2 = $alternativaErrada2;
         $this->alternativaErrada3 = $alternativaErrada3;
         $this->alternativaErrada4 = $alternativaErrada4;
+        $this->foto = $foto;
     }
 
     public function getId()
@@ -90,6 +94,15 @@ class Pergunta extends Modelo
     public function getAleatorios()
     {
         return $this->aleatorios;
+    }
+
+    public function getFoto()
+    {
+        $imagemNome = "{$this->id}.png";
+        if (!DW3ImagemUpload::existe($imagemNome)) {
+            $imagemNome = 'padrao.png';
+        }
+        return $imagemNome;
     }
 
     public function setId($id)
@@ -160,6 +173,38 @@ class Pergunta extends Modelo
             );
         }
         return $objetos;
+    }
+
+    public function salvar()
+    {
+        $this->inserir();
+        $this->salvarImagem();
+    }
+
+    private function inserir()
+    {
+        DW3BancoDeDados::getPdo()->beginTransaction();
+        $comando = DW3BancoDeDados::prepare(self::INSERIR);
+        $comando->bindValue(1, $this->pergunta, PDO::PARAM_STR);
+        $comando->bindValue(2, $this->alternativaCorreta, PDO::PARAM_STR);
+        $comando->bindValue(3, $this->alternativaErrada1, PDO::PARAM_STR);
+        $comando->bindValue(4, $this->alternativaErrada2, PDO::PARAM_STR);
+        $comando->bindValue(5, $this->alternativaErrada3, PDO::PARAM_STR);
+        $comando->bindValue(6, $this->alternativaErrada4, PDO::PARAM_STR);
+        $comando->bindValue(7, $this->dificuldade, PDO::PARAM_STR);
+        $comando->bindValue(8, $this->foto, PDO::PARAM_STR);
+        $comando->bindValue(9, $this->id_usuario, PDO::PARAM_STR);
+        $comando->execute();
+        $this->id = DW3BancoDeDados::getPdo()->lastInsertId();
+        DW3BancoDeDados::getPdo()->commit();
+    }
+
+    private function salvarImagem()
+    {
+        if (DW3ImagemUpload::isValida($this->foto)) {
+            $nomeCompleto = PASTA_PUBLICO . "img/{$this->id}.png";
+            DW3ImagemUpload::salvar($this->foto, $nomeCompleto);
+        }
     }
 
     public function embaralhaPerguntas($pergunta)
