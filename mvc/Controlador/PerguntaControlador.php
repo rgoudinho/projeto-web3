@@ -2,7 +2,7 @@
 namespace Controlador;
 
 use \Modelo\Pergunta;
-
+use \framework\DW3Sessao;
 
 class PerguntaControlador extends Controlador
 {
@@ -17,11 +17,17 @@ class PerguntaControlador extends Controlador
 
     public function criar() 
     {
-        $this->visao('perguntas/criar.php');
+        $this->verificarLogado();
+        $this->visao('perguntas/criar.php', [            
+            'usuario' => $this->getUsuario(),
+            'mensagem' => DW3Sessao::getFlash('mensagem', null)
+        ]);
     }
 
     public function armazenar()
     {
+        $foto = array_key_exists('foto', $_FILES) ? $_FILES['foto']: null;
+        $nomeCompleto = PASTA_PUBLICO . "img/{$_FILES['foto']['name']}";
         $pergunta = new Pergunta(
             $_POST['Pergunta'],
             $_POST['respostaCorreta'],
@@ -30,9 +36,10 @@ class PerguntaControlador extends Controlador
             $_POST['respostaErrada3'],
             $_POST['respostaErrada4'],
             $_POST['dificuldade'],
-            $_POST['foto']
+            $foto
         );
-        $pergunta->salvar();
+
+        $pergunta->salvar($nomeCompleto);
         $this->redirecionar(URL_RAIZ . 'pergunta');
     }
 

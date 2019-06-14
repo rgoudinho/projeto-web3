@@ -3,6 +3,7 @@ namespace Modelo;
 
 use \PDO;
 use \Framework\DW3BancoDeDados;
+use \Framework\DW3ImagemUpload;
 
 class Pergunta extends Modelo
 {
@@ -175,13 +176,13 @@ class Pergunta extends Modelo
         return $objetos;
     }
 
-    public function salvar()
+    public function salvar($nomeCompleto)
     {
-        $this->inserir();
-        $this->salvarImagem();
+        $this->inserir($nomeCompleto);
+        $this->salvarImagem($nomeCompleto);
     }
 
-    private function inserir()
+    private function inserir($nomeCompleto)
     {
         DW3BancoDeDados::getPdo()->beginTransaction();
         $comando = DW3BancoDeDados::prepare(self::INSERIR);
@@ -192,17 +193,16 @@ class Pergunta extends Modelo
         $comando->bindValue(5, $this->alternativaErrada3, PDO::PARAM_STR);
         $comando->bindValue(6, $this->alternativaErrada4, PDO::PARAM_STR);
         $comando->bindValue(7, $this->dificuldade, PDO::PARAM_STR);
-        $comando->bindValue(8, $this->foto, PDO::PARAM_STR);
+        $comando->bindValue(8, $nomeCompleto, PDO::PARAM_STR);
         $comando->bindValue(9, $this->id_usuario, PDO::PARAM_STR);
         $comando->execute();
         $this->id = DW3BancoDeDados::getPdo()->lastInsertId();
         DW3BancoDeDados::getPdo()->commit();
     }
 
-    private function salvarImagem()
+    private function salvarImagem($nomeCompleto)
     {
         if (DW3ImagemUpload::isValida($this->foto)) {
-            $nomeCompleto = PASTA_PUBLICO . "img/{$this->id}.png";
             DW3ImagemUpload::salvar($this->foto, $nomeCompleto);
         }
     }

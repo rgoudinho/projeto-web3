@@ -25,6 +25,14 @@
         </form>
     </div>
 </nav>
+
+<?php if ($mensagem) : ?>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?= $mensagem ?>
+    </div>
+<?php endif ?>
+
 <div class="d-flex justify-content-center">
     <div class="col-sm-8 col-lg-8">
         <h1 class="text-center">Criar perguntas</h1>
@@ -32,7 +40,11 @@
             A pergunta deve ser objetiva, deve ter entre 2 a 5 opções de resposta,
             deve conter o nível de dificuldade e uma foto.
         </P>
-        <form action="<?= URL_RAIZ . 'index' ?>" method="post" class="margin-bottom" enctype="multipart/form-data>
+        <form action="<?= URL_RAIZ . 'index' ?>" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="usuario">Usuario*</label>
+                <input type="text" value="<?= $usuario->getNome() ?>" class="form-control" id="usuario">
+            </div>
             <div class="form-group">
                 <label for="pergunta">Pergunta*</label>
                 <input type="text" class="form-control" id="Pergunta" placeholder="Qual é a capital do estado de São Paulo?">
@@ -63,9 +75,9 @@
                 <option value="medio">Médio</option>
                 <option value="dificil">Difícil</option>
             </select>
-                Selecione uma imagem: <input name="arquivo" type="file" />
-            <br/>
-            <input id="foto" type="submit" value="Salvar"/>
+            Selecione uma imagem: <input name="arquivo" type="file" />
+            <br />
+            <input id="foto" type="submit" value="Salvar" />
         </form>
     </div>
 </div>

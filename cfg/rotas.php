@@ -7,7 +7,6 @@ $rotas = [
 
     '/perguntas' => [
         'GET' => '\Controlador\PerguntaControlador#index',
-        'POST' => '\Controlador\PerguntaControlador#armazenar',
     ],
 
     '/perguntas/criar' => [
