@@ -11,13 +11,10 @@
                     <a class="nav-link" href="perguntas">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="usuario/perfil">Perfil</a>
+                    <a class="nav-link" href="criar">Criar pergunta</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-red" href="perguntas/criar">Criar pergunta</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-red" href="usuario/cadastrar">Cadastrar</a>
+                    <a class="nav-link" href="usuario/login">Logar</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">

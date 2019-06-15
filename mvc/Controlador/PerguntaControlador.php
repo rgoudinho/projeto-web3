@@ -3,6 +3,7 @@ namespace Controlador;
 
 use \Modelo\Pergunta;
 use \framework\DW3Sessao;
+use Modelo\Usuario;
 
 class PerguntaControlador extends Controlador
 {
@@ -26,21 +27,23 @@ class PerguntaControlador extends Controlador
 
     public function armazenar()
     {
-        $foto = array_key_exists('foto', $_FILES) ? $_FILES['foto']: null;
-        $nomeCompleto = PASTA_PUBLICO . "img/{$_FILES['foto']['name']}";
+        $foto = array_key_exists('foto', $_FILES) ? $_FILES['foto'] : null;
+        
         $pergunta = new Pergunta(
-            $_POST['Pergunta'],
-            $_POST['respostaCorreta'],
-            $_POST['respostaErrada1'],
-            $_POST['respostaErrada2'],
-            $_POST['respostaErrada3'],
-            $_POST['respostaErrada4'],
+            $_POST['pergunta'],
+            $_POST['resposta-correta'],
+            $_POST['resposta-errada1'],
+            $_POST['resposta-errada2'],
+            $_POST['resposta-errada3'],
+            $_POST['resposta-errada4'],
             $_POST['dificuldade'],
             $foto
         );
+        $usuario = Usuario::buscarNome($_POST['usuario']);
+        $pergunta->setId_usuario($usuario->getId_usuario());
 
-        $pergunta->salvar($nomeCompleto);
-        $this->redirecionar(URL_RAIZ . 'pergunta');
+        $pergunta->salvar();
+        $this->redirecionar(URL_RAIZ . 'perguntas');
     }
 
     // public function mostrar($id)

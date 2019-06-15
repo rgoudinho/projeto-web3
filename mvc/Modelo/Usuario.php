@@ -8,6 +8,7 @@ class Usuario extends Modelo
 {
     const BUSCAR_USUARIO_ID = 'SELECT * FROM usuarios WHERE id = ?';
     const BUSCAR_USUARIO_EMAIL = 'SELECT * FROM usuarios WHERE email = ?';
+    const BUSCAR_USUARIO_NOME = 'SELECT * FROM usuarios WHERE nome = ?';
     const INSERIR = 'INSERT INTO usuarios(nome, email, senha) VALUES (?,?,?)';
 
     private $id_usuario;
@@ -114,6 +115,20 @@ class Usuario extends Modelo
     {
         $comando = DW3BancoDeDados::prepare(self::BUSCAR_USUARIO_ID);
         $comando->bindValue(1, $id, PDO::PARAM_INT);
+        $comando->execute();
+        $registro = $comando->fetch();
+        return new Usuario(
+            $registro['nome'],
+            $registro['email'],
+            null,
+            $registro['id']
+        );
+    }
+
+    public static function buscarNome($nome)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_USUARIO_NOME);
+        $comando->bindValue(1, $nome, PDO::PARAM_INT);
         $comando->execute();
         $registro = $comando->fetch();
         return new Usuario(

@@ -9,12 +9,9 @@
             <label for="senha">Senha</label>
             <input type="password" name="senha" class="form-control" id="senha" placeholder="Senha">
         </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="dropdownCheck">
-            <label class="form-check-label" for="dropdownCheck">
-                Lembrar senha?
-            </label>
-        </div>
         <button type="submit" class="btn btn-primary">Sign in</button>
+        <p class="text-center">
+            <a href="<?= URL_RAIZ . 'usuario/cadastrar' ?>">Cadastrar</a>
+        </p>
     </form>
 </div>

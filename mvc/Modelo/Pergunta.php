@@ -8,7 +8,7 @@ use \Framework\DW3ImagemUpload;
 class Pergunta extends Modelo
 {
     const BUSCAR_TODOS = 'SELECT * FROM perguntas';
-    const INSERIR = 'INSERT INTO perguntas(pergunta, alternativaCorreta, alternativaErrada1, alternativaErrada2, alternativaErrada3, alternativaErrada4, dificuldade, foto, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const INSERIR = 'INSERT INTO perguntas(pergunta, alternativa_correta, alternativa_errada1, alternativa_errada2, alternativa_errada3, alternativa_errada4, dificuldade, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
     private $id;
     private $pergunta;
@@ -31,9 +31,9 @@ class Pergunta extends Modelo
         $alternativaErrada3 = null,
         $alternativaErrada4 = null,
         $dificuldade = null,
+        $id_usuario = null,
         $foto = null,
-        $id = null,
-        $id_usuario = null
+        $id = null
     ) {
         $this->id = $id;
         $this->pergunta = $pergunta;
@@ -45,26 +45,6 @@ class Pergunta extends Modelo
         $this->alternativaErrada3 = $alternativaErrada3;
         $this->alternativaErrada4 = $alternativaErrada4;
         $this->foto = $foto;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getPergunta()
-    {
-        return $this->pergunta;
-    }
-
-    public function getId_usuario()
-    {
-        return $this->id_usuario;
-    }
-
-    public function getDificuldade()
-    {
-        return $this->dificuldade;
     }
 
     public function getAlternativaCorreta()
@@ -106,24 +86,9 @@ class Pergunta extends Modelo
         return $imagemNome;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function setPergunta($pergunta)
-    {
-        $this->pergunta = $pergunta;
-    }
-
     public function setId_usuario($id_usuario)
     {
-        $this->id_usuario = $id_usuario;
-    }
-
-    public function setDificuldade($dificuldade)
-    {
-        $this->dificuldade = $dificuldade;
+        return $this->id_usuario = $id_usuario;
     }
 
     public function setAlternativaCorreta($alternativaCorreta)
@@ -176,13 +141,13 @@ class Pergunta extends Modelo
         return $objetos;
     }
 
-    public function salvar($nomeCompleto)
+    public function salvar()
     {
-        $this->inserir($nomeCompleto);
-        $this->salvarImagem($nomeCompleto);
+        $this->inserir();
+        $this->salvarImagem();
     }
 
-    private function inserir($nomeCompleto)
+    private function inserir()
     {
         DW3BancoDeDados::getPdo()->beginTransaction();
         $comando = DW3BancoDeDados::prepare(self::INSERIR);
@@ -193,16 +158,16 @@ class Pergunta extends Modelo
         $comando->bindValue(5, $this->alternativaErrada3, PDO::PARAM_STR);
         $comando->bindValue(6, $this->alternativaErrada4, PDO::PARAM_STR);
         $comando->bindValue(7, $this->dificuldade, PDO::PARAM_STR);
-        $comando->bindValue(8, $nomeCompleto, PDO::PARAM_STR);
-        $comando->bindValue(9, $this->id_usuario, PDO::PARAM_STR);
+        $comando->bindValue(8, $this->id_usuario, PDO::PARAM_STR);
         $comando->execute();
         $this->id = DW3BancoDeDados::getPdo()->lastInsertId();
         DW3BancoDeDados::getPdo()->commit();
     }
 
-    private function salvarImagem($nomeCompleto)
+    private function salvarImagem()
     {
         if (DW3ImagemUpload::isValida($this->foto)) {
+            $nomeCompleto = PASTA_PUBLICO . "img/{$this->id}.jpg";
             DW3ImagemUpload::salvar($this->foto, $nomeCompleto);
         }
     }

@@ -18,7 +18,6 @@ alternativa_errada2 VARCHAR(100),
 alternativa_errada3 VARCHAR(100),
 alternativa_errada4 VARCHAR(100),
 dificuldade VARCHAR(10),
-foto VARCHAR(100),
 PRIMARY KEY (id),
 CONSTRAINT fk_pessoa_pergunta FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );

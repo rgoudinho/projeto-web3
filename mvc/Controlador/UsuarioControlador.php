@@ -6,14 +6,6 @@ use \framework\DW3Sessao;
 
 class UsuarioControlador extends Controlador
 {
-    public function perfil()
-    {
-        $this->verificarLogado();
-        $this->visao('usuario/perfil.php', [
-            'usuario' => $this->getUsuario(),
-            'mensagem' => DW3Sessao::getFlash('mensagem', null)
-        ]);
-    }
 
     public function cadastrar()
     {
@@ -37,6 +29,6 @@ class UsuarioControlador extends Controlador
     {
         $usuario = new Usuario($_POST['nome'], $_POST['email'], $_POST['senha']);
         $usuario->salvar();
-        $this->redirecionar(URL_RAIZ . 'usuario/perfil');
+        $this->redirecionar(URL_RAIZ . 'perguntas');
     }
 }

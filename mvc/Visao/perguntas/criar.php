@@ -1,31 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <h1 class="navbar-brand" href="#">Sistema de perguntas</h1>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="perguntas">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="usuario/perfil">Perfil</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-red" href="perguntas/criar">Criar pergunta</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-red" href="usuario/cadastrar">Cadastrar</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
-
+<br>
+<br>
 <?php if ($mensagem) : ?>
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -40,42 +14,42 @@
             A pergunta deve ser objetiva, deve ter entre 2 a 5 opções de resposta,
             deve conter o nível de dificuldade e uma foto.
         </P>
-        <form action="<?= URL_RAIZ . 'index' ?>" method="post" enctype="multipart/form-data">
+        <form action="<?= URL_RAIZ . 'criar' ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="usuario">Usuario*</label>
-                <input type="text" value="<?= $usuario->getNome() ?>" class="form-control" id="usuario">
+                <input type="text" value="<?= $usuario->getNome() ?>" name="usuario" id="usuario" class="form-control">
             </div>
             <div class="form-group">
                 <label for="pergunta">Pergunta*</label>
-                <input type="text" class="form-control" id="Pergunta" placeholder="Qual é a capital do estado de São Paulo?">
+                <input type="text" class="form-control" id="pergunta" name="pergunta" placeholder="Qual é a capital do estado de São Paulo?">
             </div>
             <div class="form-group">
                 <label for="respostaCorreta">Resposta correta*</label>
-                <input type="text" class="form-control" id="respostaCorreta" placeholder="São Paulo">
+                <input type="text" class="form-control" name="resposta-correta" id="resposta-correta" placeholder="São Paulo">
             </div>
             <div class="form-group">
                 <label for="respostaErrada1">Primeira resposta errada*</label>
-                <input type="text" class="form-control" id="respostaErrada1" placeholder="Guarulhos">
+                <input type="text" class="form-control" name="resposta-errada1" id="resposta-errada1" placeholder="Guarulhos">
             </div>
             <div class="form-group">
                 <label for="respostaErrada2">Segunda resposta errada</label>
-                <input type="text" class="form-control" id="respostaErrada2" placeholder="Campinas">
+                <input type="text" class="form-control" name="resposta-errada2" id="resposta-errada2" placeholder="Campinas">
             </div>
             <div class="form-group">
                 <label for="respostaErrada3">Terceira resposta errada</label>
-                <input type="text" class="form-control" id="respostaErrada3" placeholder="São Bernardo do Campo">
+                <input type="text" class="form-control" name="resposta-errada3" id="resposta-errada3" placeholder="São Bernardo do Campo">
             </div>
             <div class="form-group">
                 <label for="respostaErrada4">Quarta resposta errada</label>
-                <input type="text" class="form-control" id="respostaErrada4" placeholder="Santo André">
+                <input type="text" class="form-control" name="resposta-errada4" id="resposta-errada4" placeholder="Santo André">
             </div>
             <label for="my-1 mr-2">Selecione o nivel de dificuldade</label>
-            <select id="dificuldade" class="custom-select col-sm-2 col-lg-2">
+            <select id="dificuldade" name="dificuldade" class="custom-select col-sm-2 col-lg-2">
                 <option value="facil">Facíl</option>
                 <option value="medio">Médio</option>
                 <option value="dificil">Difícil</option>
             </select>
-            Selecione uma imagem: <input name="arquivo" type="file" />
+            Selecione uma imagem: <input name="foto" type="file" id="foto" />
             <br />
             <input id="foto" type="submit" value="Salvar" />
         </form>

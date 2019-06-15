@@ -9,20 +9,14 @@ $rotas = [
         'GET' => '\Controlador\PerguntaControlador#index',
     ],
 
-    '/perguntas/criar' => [
+    '/criar' => [
         'GET' => '\Controlador\PerguntaControlador#criar',
-    ],
-
-    '/usuario' => [
-        'POST' => '\Controlador\UsuarioControlador#verificarCampos',
-    ],
-
-    '/usuario/perfil' => [
-        'GET' => '\Controlador\UsuarioControlador#perfil',
+        'POST' => '\Controlador\PerguntaControlador#armazenar',
     ],
 
     '/usuario/cadastrar' => [
         'GET' => '\Controlador\UsuarioControlador#cadastrar',
+        'POST' => '\Controlador\UsuarioControlador#verificarCampos',
     ],
 
     '/usuario/login' => [

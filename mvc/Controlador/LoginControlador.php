@@ -16,7 +16,7 @@ class LoginControlador extends Controlador
         $usuario = Usuario::buscarEmail($_POST['email']);
         if ($usuario && $usuario->verificarSenha($_POST['senha'])) {
             DW3Sessao::set('usuario', $usuario->getId_usuario());
-            $this->redirecionar(URL_RAIZ . 'usuario/perfil');
+            $this->redirecionar(URL_RAIZ . 'perguntas');
         } else {
             $this->visao('login/criar.php');
         }
