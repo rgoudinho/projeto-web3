@@ -2,7 +2,8 @@
 <div class="col-xs-12 col-sm-8 col-md-4 centraliza-login-e-cadastro">
     <form action="<?= URL_RAIZ . 'usuario/cadastrar' ?>" method="post">
         <div class="form-group">
-            <label for="nome">Nome</label>
+            <label for="nome" >Nome</label>
+            <!-- < ?php $this->incluirVisao('util/formErro.php', ['campo' => 'email']) ?> -->
             <input type="name" name="nome" class="form-control" id="nome" placeholder="Ronaldo Goudinho">
         </div>
         <div class="form-group">

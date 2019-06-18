@@ -92,6 +92,19 @@ class Usuario extends Modelo
         DW3BancoDeDados::getPdo()->commit();
     }
 
+    protected function verificarErros()
+    {
+        if (strlen($this->email) < 3) {
+            $this->setErroMensagem('email', 'Deve ter no mínimo 3 caracteres.');
+        }
+        if (strlen($this->usuario) < 3) {
+            $this->setErroMensagem('usuario', 'Deve ter no mínimo 3 caracteres.');
+        }
+        if (strlen($this->senhaPlana) < 3) {
+            $this->setErroMensagem('senha', 'Deve ter no mínimo 3 caracteres.');
+        }
+    }
+
     public static function buscarEmail($email)
     {
         $comando = DW3BancoDeDados::prepare(self::BUSCAR_USUARIO_EMAIL);

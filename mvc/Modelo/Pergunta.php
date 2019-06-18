@@ -47,6 +47,21 @@ class Pergunta extends Modelo
         $this->foto = $foto;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getId_usuario()
+    {
+        return $this->id_usuario;
+    }
+
+    public function getPergunta()
+    {
+        return $this->pergunta;
+    }
+
     public function getAlternativaCorreta()
     {
         return $this->alternativaCorreta;
@@ -127,16 +142,27 @@ class Pergunta extends Modelo
         $objetos = [];
         foreach ($registros as $registro) {
             $objetos[] = new Pergunta(
-                $registro['id_pergunta'],
                 $registro['pergunta'],
-                $registro['id_usuario'],
-                $registro['dificuldade'],
                 $registro['alternativa_correta'],
                 $registro['alternativa_errada1'],
                 $registro['alternativa_errada2'],
                 $registro['alternativa_errada3'],
-                $registro['alternativa_errada4']
+                $registro['alternativa_errada4'],
+                $registro['dificuldade'],
+                $registro['id_usuario'],
+                null,
+                $registro['id']
             );
+            // $pergunta = null,
+            // $alternativaCorreta = null,
+            // $alternativaErrada1 = null,
+            // $alternativaErrada2 = null,
+            // $alternativaErrada3 = null,
+            // $alternativaErrada4 = null,
+            // $dificuldade = null,
+            // $id_usuario = null,
+            // $foto = null,
+            // $id = null
         }
         return $objetos;
     }

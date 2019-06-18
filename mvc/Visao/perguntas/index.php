@@ -31,9 +31,8 @@
             </tr>
         <?php endif ?>
         <?php foreach ($perguntas as $pergunta) : ?>
-
             <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
+                <img src="<?=PASTA_PUBLIC . $pergunta->getFoto()?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="usuario"><?= $pergunta->getId_usuario() ?></h5>
                     <p class="pergunta"><?= $pergunta->getPergunta() ?></p>
@@ -42,11 +41,26 @@
                     <?php
                     $alt = $pergunta->embaralhaPerguntas($pergunta);
                     ?>
-                    <li class="list-group-item"><?= $alt[1] ?></li>
-                    <li class="list-group-item"><?= $alt[2] ?></li>
-                    <li class="list-group-item"><?= $alt[3] ?></li>
-                    <li class="list-group-item"><?= $alt[4] ?></li>
-                    <li class="list-group-item"><?= $alt[5] ?></li>
+                    <?php 
+                    if($alt[1] != null) : ?>
+                        <li class="list-group-item"><?= $alt[1] ?></li>
+                    <?php endif ?>
+                    <?php 
+                    if($alt[2] != null) : ?>
+                        <li class="list-group-item"><?= $alt[2] ?></li>
+                    <?php endif ?>
+                    <?php 
+                    if($alt[3] != null) : ?>
+                        <li class="list-group-item"><?= $alt[3] ?></li>
+                    <?php endif ?>
+                    <?php 
+                    if($alt[4] != null) : ?>
+                        <li class="list-group-item"><?= $alt[4] ?></li>
+                    <?php endif ?>
+                    <?php 
+                    if($alt[5] != null) : ?>
+                        <li class="list-group-item"><?= $alt[5] ?></li>
+                    <?php endif ?>
                 </ul>
             </div>
         <?php endforeach ?>

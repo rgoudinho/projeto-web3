@@ -14,7 +14,7 @@ abstract class Controlador extends DW3Controlador
     {
     	$usuario = $this->getUsuario();
         if ($usuario == null) {
-        	$this->redirecionar(URL_RAIZ . 'login');
+        	$this->redirecionar(URL_RAIZ . 'usuario/login');
         }
     }
 
