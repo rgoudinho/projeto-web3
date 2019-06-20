@@ -15,8 +15,8 @@ $rotas = [
     ],
 
     '/usuario/cadastrar' => [
-        'GET' => '\Controlador\UsuarioControlador#cadastrar',
-        'POST' => '\Controlador\UsuarioControlador#verificarCampos',
+        'GET' => '\Controlador\UsuarioControlador#cadastro',
+        'POST' => '\Controlador\UsuarioControlador#armazenar',
     ],
 
     '/usuario/login' => [

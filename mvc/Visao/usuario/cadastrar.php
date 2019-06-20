@@ -1,14 +1,14 @@
 
 <div class="col-xs-12 col-sm-8 col-md-4 centraliza-login-e-cadastro">
     <form action="<?= URL_RAIZ . 'usuario/cadastrar' ?>" method="post">
-        <div class="form-group">
+        <div class="form-group ">
             <label for="nome" >Nome</label>
-            <!-- < ?php $this->incluirVisao('util/formErro.php', ['campo' => 'email']) ?> -->
             <input type="name" name="nome" class="form-control" id="nome" placeholder="Ronaldo Goudinho">
         </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="email@example.com">
+        <div class="form-group <?= $this->getErroCss('email') ?>">
+            <label class="control-label" for="email">Email</label>
+            <?php $this->incluirVisao('util/formErro.php', ['campo' => 'email']) ?>
+            <input id="email" type="email" name="email" class="form-control" placeholder="email@example.com">
         </div>
         <div class="form-group">
             <label for="senha">Senha</label>
