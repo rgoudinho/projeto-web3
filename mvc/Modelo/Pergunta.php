@@ -4,6 +4,7 @@ namespace Modelo;
 use \PDO;
 use \Framework\DW3BancoDeDados;
 use \Framework\DW3ImagemUpload;
+use \Modelo\Usuario;
 
 class Pergunta extends Modelo
 {
@@ -87,6 +88,11 @@ class Pergunta extends Modelo
         return $this->alternativaErrada4;
     }
 
+    public function getDificuldade()
+    {
+        return $this->dificuldade;
+    }
+
     public function getAleatorios()
     {
         return $this->aleatorios;
@@ -99,6 +105,10 @@ class Pergunta extends Modelo
             $imagemNome = 'padrao.png';
         }
         return $imagemNome;
+    }
+
+    public function getUsuario(){
+        return Usuario::buscarNome($this->getId_usuario());
     }
 
     public function setId_usuario($id_usuario)
@@ -153,16 +163,6 @@ class Pergunta extends Modelo
                 null,
                 $registro['id']
             );
-            // $pergunta = null,
-            // $alternativaCorreta = null,
-            // $alternativaErrada1 = null,
-            // $alternativaErrada2 = null,
-            // $alternativaErrada3 = null,
-            // $alternativaErrada4 = null,
-            // $dificuldade = null,
-            // $id_usuario = null,
-            // $foto = null,
-            // $id = null
         }
         return $objetos;
     }

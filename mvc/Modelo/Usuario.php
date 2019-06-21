@@ -19,8 +19,8 @@ class Usuario extends Modelo
 
     public function __construct(
         $nome,
-        $email,
-        $senhaPlana,
+        $email = null,
+        $senhaPlana = null,
         $id_usuario = null
     )
     {
@@ -97,15 +97,15 @@ class Usuario extends Modelo
         if (strlen($this->email) < 3) {
             $this->setErroMensagem('email', 'Deve ter no mínimo 3 caracteres.');
         }
-        if (strlen($this->usuario) < 3) {
-            $this->setErroMensagem('usuario', 'Deve ter no mínimo 3 caracteres.');
+        if (strlen($this->nome) < 3) {
+            $this->setErroMensagem('nome', 'Deve ter no mínimo 3 caracteres.');
         }
         if (strlen($this->senhaPlana) < 3) {
             $this->setErroMensagem('senha', 'Deve ter no mínimo 3 caracteres.');
         }
     }
 
-    public static function buscarEmail($email)
+    public static function buscarPeloEmail($email)
     {
         $comando = DW3BancoDeDados::prepare(self::BUSCAR_USUARIO_EMAIL);
         $comando->bindValue(1, $email, PDO::PARAM_STR);
@@ -124,7 +124,7 @@ class Usuario extends Modelo
         return $usuario;
     }
 
-    public static function buscarId($id)
+    public static function buscarPeloId($id)
     {
         $comando = DW3BancoDeDados::prepare(self::BUSCAR_USUARIO_ID);
         $comando->bindValue(1, $id, PDO::PARAM_INT);
@@ -138,7 +138,7 @@ class Usuario extends Modelo
         );
     }
 
-    public static function buscarNome($nome)
+    public static function buscarPeloNome($nome)
     {
         $comando = DW3BancoDeDados::prepare(self::BUSCAR_USUARIO_NOME);
         $comando->bindValue(1, $nome, PDO::PARAM_INT);
@@ -150,6 +150,18 @@ class Usuario extends Modelo
             null,
             $registro['id']
         );
+    }
+
+    public static function buscarNome($id)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_USUARIO_ID);
+        $comando->bindValue(1, $id, PDO::PARAM_INT);
+        $comando->execute();
+        $registro = $comando->fetch();
+        $usuario = new Usuario(
+            $registro['nome']
+        );
+        return $usuario->getNome(); 
     }
 
 }

@@ -19,3 +19,7 @@
 .inline {
     display: inline;
 }
+
+div {
+    color: blue !important;
+}

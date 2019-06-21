@@ -39,7 +39,7 @@ class PerguntaControlador extends Controlador
             $_POST['dificuldade'],
             $foto
         );
-        $usuario = Usuario::buscarNome($_POST['usuario']);
+        $usuario = Usuario::buscarPeloNome($_POST['usuario']);
         $pergunta->setId_usuario($usuario->getId_usuario());
 
         $pergunta->salvar();

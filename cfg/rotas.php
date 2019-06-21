@@ -21,6 +21,6 @@ $rotas = [
 
     '/usuario/login' => [
         'GET' => '\Controlador\LoginControlador#login',
-        'POST' => '\Controlador\LoginControlador#verificar',
+        'POST' => '\Controlador\LoginControlador#armazenar',
     ],
 ];

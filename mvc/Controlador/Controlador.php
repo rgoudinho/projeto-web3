@@ -26,7 +26,7 @@ abstract class Controlador extends DW3Controlador
         	if ($usuarioId == null) {
         		return null;
         	}
-        	$this->usuario = Usuario::buscarId($usuarioId);
+        	$this->usuario = Usuario::buscarPeloId($usuarioId);
         }
         return $this->usuario;
     }

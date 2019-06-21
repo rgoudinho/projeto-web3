@@ -2,7 +2,6 @@
 namespace Controlador;
 
 use \Modelo\Usuario;
-use \framework\DW3Sessao;
 
 class UsuarioControlador extends Controlador
 {
@@ -18,10 +17,10 @@ class UsuarioControlador extends Controlador
         
         if($usuario->isValido()){
             $usuario->salvar();
-            $this->redirecionar(URL_RAIZ . 'perguntas');
+            $this->redirecionar(URL_RAIZ . 'usuario/login');
         } else {
             $this->setErros($usuario->getValidacaoErros());
-            $this->visao('usuarios/criar.php');
+            $this->visao('usuario/cadastrar.php');
         }
     }
 }
