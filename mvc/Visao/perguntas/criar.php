@@ -50,8 +50,9 @@
                 <option value="dificil">Difícil</option>
             </select>
             Selecione uma imagem: <input name="foto" type="file" id="foto" />
+            <?php $this->incluirVisao('util/formErro.php', ['campo' => 'foto']) ?>
             <br />
-            <input id="foto" type="submit" value="Salvar" />
+            <input id="submiter" type="submit" value="Salvar" />
         </form>
     </div>
 </div>

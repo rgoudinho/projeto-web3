@@ -25,9 +25,9 @@ class Pergunta extends Modelo
     private $aleatorios = [];
 
     public function __construct(
-        $pergunta = null,
-        $alternativaCorreta = null,
-        $alternativaErrada1 = null,
+        $pergunta,
+        $alternativaCorreta,
+        $alternativaErrada1,
         $alternativaErrada2 = null,
         $alternativaErrada3 = null,
         $alternativaErrada4 = null,
@@ -193,7 +193,8 @@ class Pergunta extends Modelo
     private function salvarImagem()
     {
         if (DW3ImagemUpload::isValida($this->foto)) {
-            $nomeCompleto = PASTA_PUBLICO . "img/{$this->id}.jpg";
+            $nomeCompleto = PASTA_PUBLICO . "img/{$this->id}.png";
+
             DW3ImagemUpload::salvar($this->foto, $nomeCompleto);
         }
     }

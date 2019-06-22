@@ -37,6 +37,7 @@ class PerguntaControlador extends Controlador
             $_POST['resposta-errada3'],
             $_POST['resposta-errada4'],
             $_POST['dificuldade'],
+            null,
             $foto
         );
         $usuario = Usuario::buscarPeloNome($_POST['usuario']);

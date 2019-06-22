@@ -30,25 +30,38 @@
             </tr>
         <?php endif ?>
         <?php foreach ($perguntas as $pergunta) : ?>
-            <div class="card col-lg-8 mx-auto" style="background-color:#eee;">
-                <img src="<?= PASTA_PUBLIC . $pergunta->getFoto() ?>" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="pergunta card-title"><?= $pergunta->getPergunta()?></h5>
-                    <p id="usuario" class="card-text"><?= "Usuario: " . $pergunta->getUsuario() ?></p>
-                    <p id="dificuldade" class="card-text"><?= "Dificuldade: " . $pergunta->getDificuldade() ?></p>
+            <div class="container">
+                <div class="card col-lg-8 mx-auto" style="background-color:#eee;">
+                    <div class="row">
+                        <div class="col-sm-6 mx-auto">
+                            <img src="<?= URL_IMG . $pergunta->getFoto() ?>" class="card-img-top">
+                        </div>
+                        <div class="col-sm-6 card-body">
+                            <h3 class="pergunta card-title"><?= $pergunta->getPergunta() ?></h3>
+                            <br>
+                            <p id="usuario" class="card-text"><?= "Usuario: " . $pergunta->getUsuario() ?>
+                                <br> <?= "Dificuldade: " . $pergunta->getDificuldade() ?></p>
+                            <form action="" method="post" class="clearfix margin-bottom">
+                                <input type="hidden" name="_metodo" value="DELETE">
+                                <button type="submit" class="btn btn-xs btn-danger" title="Deletar">
+                                    <span class="glyphicon glyphicon-trash">DELETAR</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <?php
+                        $alt = $pergunta->embaralhaPerguntas($pergunta);
+                        for ($i = 1; $i <= 5; $i = $i + 1) :
+                            if ($alt[$i] != null) : ?>
+                                <li class="list-group-item">
+                                    <form action=""> <?= $alt[$i] ?></form>
+                                </li>
+                            <?php endif ?>
+                        <?php endfor ?>
+                    </ul>
+                    <br>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <?php
-                    $alt = $pergunta->embaralhaPerguntas($pergunta);
-                    for ($i = 1; $i <= 5; $i = $i + 1) :
-                        if ($alt[$i] != null) : ?>
-                            <li class="list-group-item">
-                                <form action=""> <?= $alt[$i] ?></form>
-                            </li>
-                        <?php endif ?>
-                    <?php endfor ?>
-                </ul>
-                <br>
             </div>
             <br>
         <?php endforeach ?>

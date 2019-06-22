@@ -20,6 +20,6 @@
     display: inline;
 }
 
-div {
-    color: blue !important;
+.tamanho-img {
+    width: 50px!important;
 }
