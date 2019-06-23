@@ -22,5 +22,14 @@ $rotas = [
     '/usuario/login' => [
         'GET' => '\Controlador\LoginControlador#login',
         'POST' => '\Controlador\LoginControlador#armazenar',
+        'DELETE' => '\Controlador\LoginControlador#destruir',
     ],
+
+    '/perguntas/?' => [
+        'DELETE' => '\Controlador\PerguntaControlador#destruir',
+    ],
+
+    '/perguntas/?/editar' => [
+        'GET' => '\Controlador\PerguntaControlador#editar',
+    ]
 ];

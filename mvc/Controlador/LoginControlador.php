@@ -22,4 +22,10 @@ class LoginControlador extends Controlador
             $this->visao('usuario/login.php');
         }
     }
+
+    public function destruir()
+    {
+        DW3Sessao::deletar('usuario');
+        $this->redirecionar('login');
+    }
 }

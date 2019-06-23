@@ -16,10 +16,10 @@ class PerguntaControlador extends Controlador
         ]);
     }
 
-    public function criar() 
+    public function criar()
     {
         $this->verificarLogado();
-        $this->visao('perguntas/criar.php', [            
+        $this->visao('perguntas/criar.php', [
             'usuario' => $this->getUsuario(),
             'mensagem' => DW3Sessao::getFlash('mensagem', null)
         ]);
@@ -28,7 +28,7 @@ class PerguntaControlador extends Controlador
     public function armazenar()
     {
         $foto = array_key_exists('foto', $_FILES) ? $_FILES['foto'] : null;
-        
+
         $pergunta = new Pergunta(
             $_POST['pergunta'],
             $_POST['resposta-correta'],
@@ -47,6 +47,30 @@ class PerguntaControlador extends Controlador
         $this->redirecionar(URL_RAIZ . 'perguntas');
     }
 
+    public function destruir($id)
+    {
+        $this->verificarLogado();
+        $pergunta = Pergunta::buscarPeloId($id);
+        $usuarioPergunta = Usuario::buscarPeloId($pergunta->getId_usuario());
+        $usuarioLogado = $this->getUsuario();
+
+        if ($usuarioPergunta->getId_usuario() == $usuarioLogado->getId_usuario()) {
+            Pergunta::destruir($id);
+            DW3Sessao::setFlash('mensagemFlash', 'Mensagem destruida.');
+        } else {
+            DW3Sessao::setFlash('mensagemFlash', 'Você não pode deletar as mensagens dos outros.');
+        }
+        $this->redirecionar(URL_RAIZ . 'perguntas');
+    }
+
+    public function editar($id)
+    {
+        $pergunta = Pergunta::buscarPeloId($id);
+        $this->visao('perguntas/editar.php', [
+            'pergunta' => $pergunta
+        ]);
+    }
+
     // public function mostrar($id)
     // {
     //     $pergunta = Pergunta::buscarId($id);
@@ -60,14 +84,6 @@ class PerguntaControlador extends Controlador
     //     $this->visao('perguntas/criar.php');
     // }
 
-    // public function editar($id)
-    // {
-    //     $pergunta = Pergunta::buscarId($id);
-    //     $this->visao('contatos/editar.php', [
-    //         'contato' => $pergunta
-    //     ]);
-    // }
-
     // public function atualizar($id)
     // {
     //     $contato = Pergunta::buscarId($id);
@@ -77,12 +93,6 @@ class PerguntaControlador extends Controlador
     //     $contato->setTelefone2($_POST['telefone2']);
     //     $contato->setTelefone3($_POST['telefone3']);
     //     $contato->salvar();
-    //     $this->redirecionar(URL_RAIZ . 'perguntas');
-    // }
-
-    // public function destruir($id)
-    // {
-    //     Pergunta::destruir($id);
     //     $this->redirecionar(URL_RAIZ . 'perguntas');
     // }
 }

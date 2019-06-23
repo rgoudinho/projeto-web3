@@ -10,6 +10,8 @@ class Pergunta extends Modelo
 {
     const BUSCAR_TODOS = 'SELECT * FROM perguntas';
     const INSERIR = 'INSERT INTO perguntas(pergunta, alternativa_correta, alternativa_errada1, alternativa_errada2, alternativa_errada3, alternativa_errada4, dificuldade, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const BUSCAR_PELO_ID = 'SELECT * FROM perguntas WHERE id = ? LIMIT 1';
+    const DELETAR = 'DELETE FROM perguntas WHERE id = ?';
 
     private $id;
     private $pergunta;
@@ -167,6 +169,30 @@ class Pergunta extends Modelo
         return $objetos;
     }
 
+    public static function buscarPeloId($id)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_PELO_ID);
+        $comando->bindValue(1, $id, PDO::PARAM_INT);
+        $comando->execute();
+        $objeto = null;
+        $registro = $comando->fetch();
+        if ($registro) {
+            $objeto = new Pergunta(
+                $registro['pergunta'],
+                $registro['alternativa_correta'],
+                $registro['alternativa_errada1'],
+                $registro['alternativa_errada2'],
+                $registro['alternativa_errada3'],
+                $registro['alternativa_errada4'],
+                $registro['dificuldade'],
+                $registro['id_usuario'],
+                null,
+                $registro['id']
+            );
+        }
+        return $objeto;
+    }
+
     public function salvar()
     {
         $this->inserir();
@@ -197,6 +223,13 @@ class Pergunta extends Modelo
 
             DW3ImagemUpload::salvar($this->foto, $nomeCompleto);
         }
+    }
+
+    public static function destruir($id)
+    {
+        $comando = DW3BancoDeDados::prepare(self::DELETAR);
+        $comando->bindValue(1, $id, PDO::PARAM_INT);
+        $comando->execute();
     }
 
     public function embaralhaPerguntas($pergunta)
