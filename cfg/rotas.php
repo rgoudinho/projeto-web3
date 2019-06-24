@@ -26,10 +26,11 @@ $rotas = [
     ],
 
     '/perguntas/?' => [
+        'PATCH' => '\Controlador\PerguntaControlador#atualizar',
         'DELETE' => '\Controlador\PerguntaControlador#destruir',
     ],
 
     '/perguntas/?/editar' => [
         'GET' => '\Controlador\PerguntaControlador#editar',
-    ]
+    ],
 ];

@@ -12,6 +12,8 @@ class Pergunta extends Modelo
     const INSERIR = 'INSERT INTO perguntas(pergunta, alternativa_correta, alternativa_errada1, alternativa_errada2, alternativa_errada3, alternativa_errada4, dificuldade, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     const BUSCAR_PELO_ID = 'SELECT * FROM perguntas WHERE id = ? LIMIT 1';
     const DELETAR = 'DELETE FROM perguntas WHERE id = ?';
+    const ATUALIZAR = 'UPDATE perguntas SET pergunta = ?, alternativa_correta = ?, alternativa_errada1 = ?, alternativa_errada2 = ?, alternativa_errada3 = ?, alternativa_errada4 = ?, dificuldade = ?, id_usuario = ? WHERE id = ?';
+
 
     private $id;
     private $pergunta;
@@ -109,13 +111,19 @@ class Pergunta extends Modelo
         return $imagemNome;
     }
 
-    public function getUsuario(){
+    public function getUsuario()
+    {
         return Usuario::buscarNome($this->getId_usuario());
     }
 
     public function setId_usuario($id_usuario)
     {
         return $this->id_usuario = $id_usuario;
+    }
+
+    public function setPergunta($pergunta)
+    {
+        return $this->pergunta = $pergunta;
     }
 
     public function setAlternativaCorreta($alternativaCorreta)
@@ -146,6 +154,11 @@ class Pergunta extends Modelo
     public function setAleatorios($posicao, $aleatorio)
     {
         $this->aleatorios[$posicao] = $aleatorio;
+    }
+
+    public function setDificuldade($dificuldade)
+    {
+        $this->dificuldade = $dificuldade;
     }
 
     public static function buscarTodos()
@@ -195,9 +208,30 @@ class Pergunta extends Modelo
 
     public function salvar()
     {
-        $this->inserir();
-        $this->salvarImagem();
+        if ($this->id == null) {
+            $this->inserir();
+            $this->salvarImagem();
+        } else {
+            $this->atualizar();
+        }
     }
+
+    public function atualizar()
+    {
+        $comando = DW3BancoDeDados::prepare(self::ATUALIZAR);
+        $comando->bindValue(1, $this->pergunta, PDO::PARAM_STR);
+        $comando->bindValue(2, $this->alternativaCorreta, PDO::PARAM_STR);
+        $comando->bindValue(3, $this->alternativaErrada1, PDO::PARAM_STR);
+        $comando->bindValue(4, $this->alternativaErrada2, PDO::PARAM_STR);
+        $comando->bindValue(5, $this->alternativaErrada3, PDO::PARAM_STR);
+        $comando->bindValue(6, $this->alternativaErrada4, PDO::PARAM_STR);
+        $comando->bindValue(7, $this->dificuldade, PDO::PARAM_STR);
+        $comando->bindValue(8, $this->id_usuario, PDO::PARAM_INT);
+        $comando->bindValue(9, $this->id, PDO::PARAM_INT);
+        $comando->execute();
+
+    }
+
 
     private function inserir()
     {

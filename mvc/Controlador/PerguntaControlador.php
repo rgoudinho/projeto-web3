@@ -71,28 +71,17 @@ class PerguntaControlador extends Controlador
         ]);
     }
 
-    // public function mostrar($id)
-    // {
-    //     $pergunta = Pergunta::buscarId($id);
-    //     $this->visao('perguntas/mostrar.php', [
-    //         'pergunta' => $pergunta
-    //     ]);
-    // }
-
-    // public function criar()
-    // {
-    //     $this->visao('perguntas/criar.php');
-    // }
-
-    // public function atualizar($id)
-    // {
-    //     $contato = Pergunta::buscarId($id);
-    //     $contato->setNome($_POST['nome']);
-    //     $contato->setEndereco($_POST['endereco']);
-    //     $contato->setTelefone1($_POST['telefone1']);
-    //     $contato->setTelefone2($_POST['telefone2']);
-    //     $contato->setTelefone3($_POST['telefone3']);
-    //     $contato->salvar();
-    //     $this->redirecionar(URL_RAIZ . 'perguntas');
-    // }
+    public function atualizar($id)
+    {
+        $pergunta = Pergunta::buscarPeloId($id);
+        $pergunta->setPergunta($_POST['pergunta']);
+        $pergunta->setAlternativaCorreta($_POST['resposta-correta']);
+        $pergunta->setAlternativaErrada1($_POST['resposta-errada1']);
+        $pergunta->setAlternativaErrada2($_POST['resposta-errada2']);
+        $pergunta->setAlternativaErrada3($_POST['resposta-errada3']);
+        $pergunta->setAlternativaErrada4($_POST['resposta-errada4']);
+        $pergunta->setDificuldade($_POST['dificuldade']);
+        $pergunta->salvar();
+        $this->redirecionar(URL_RAIZ . 'perguntas');
+    }
 }
