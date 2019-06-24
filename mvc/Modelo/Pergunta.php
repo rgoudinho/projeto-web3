@@ -13,7 +13,7 @@ class Pergunta extends Modelo
     const BUSCAR_PELO_ID = 'SELECT * FROM perguntas WHERE id = ? LIMIT 1';
     const DELETAR = 'DELETE FROM perguntas WHERE id = ?';
     const ATUALIZAR = 'UPDATE perguntas SET pergunta = ?, alternativa_correta = ?, alternativa_errada1 = ?, alternativa_errada2 = ?, alternativa_errada3 = ?, alternativa_errada4 = ?, dificuldade = ?, id_usuario = ? WHERE id = ?';
-
+    const BUSCAR_PELA_PERGUNTA = 'SELECT * FROM perguntas WHERE pergunta = ? LIMIT 1';
 
     private $id;
     private $pergunta;
@@ -29,9 +29,9 @@ class Pergunta extends Modelo
     private $aleatorios = [];
 
     public function __construct(
-        $pergunta,
-        $alternativaCorreta,
-        $alternativaErrada1,
+        $pergunta = null,
+        $alternativaCorreta = null,
+        $alternativaErrada1 = null,
         $alternativaErrada2 = null,
         $alternativaErrada3 = null,
         $alternativaErrada4 = null,
@@ -161,6 +161,41 @@ class Pergunta extends Modelo
         $this->dificuldade = $dificuldade;
     }
 
+    public static function buscarPelaPrgunta($pergunta)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_PELA_PERGUNTA);
+        $comando->bindValue(1, $pergunta, PDO::PARAM_INT);
+        $comando->execute();
+        $objeto = null;
+        $registro = $comando->fetch();
+        if ($registro) {
+            $objeto = new Pergunta(
+                $registro['pergunta'],
+                $registro['alternativa_correta'],
+                $registro['alternativa_errada1'],
+                $registro['alternativa_errada2'],
+                $registro['alternativa_errada3'],
+                $registro['alternativa_errada4'],
+                $registro['dificuldade'],
+                $registro['id_usuario'],
+                null,
+                $registro['id']
+            );
+        }
+        return $objeto;
+    }
+
+    public function verificaUsuarioPergunta($id, $usuarioAtivo)
+    { 
+        $pergunta = $this->buscarPeloId($id);
+
+        if($pergunta->getId_usuario() == $usuarioAtivo->getId_usuario() ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static function buscarTodos()
     {
         $registros = DW3BancoDeDados::query(self::BUSCAR_TODOS);
@@ -206,6 +241,15 @@ class Pergunta extends Modelo
         return $objeto;
     }
 
+    public function verificarResposta($resposta)
+    {
+        if ($resposta == $this->getAlternativaCorreta()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function salvar()
     {
         if ($this->id == null) {
@@ -229,7 +273,6 @@ class Pergunta extends Modelo
         $comando->bindValue(8, $this->id_usuario, PDO::PARAM_INT);
         $comando->bindValue(9, $this->id, PDO::PARAM_INT);
         $comando->execute();
-
     }
 
 

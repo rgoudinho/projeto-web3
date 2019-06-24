@@ -43,6 +43,12 @@
         <?php foreach ($perguntas as $pergunta) : ?>
             <div class="container">
                 <div class="card col-lg-8 mx-auto" style="background-color:#eee;">
+                    <?php if ($mensagemFlash) : ?>
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <?= $mensagemFlash ?>
+                        </div>
+                    <?php endif ?>
                     <div class="row">
                         <div class="col-sm-6 mx-auto">
                             <img src="<?= URL_IMG . $pergunta->getFoto() ?>" class="card-img-top">
@@ -52,16 +58,15 @@
                             <br>
                             <p id="usuario" class="card-text"><?= "Usuario: " . $pergunta->getUsuario() ?>
                                 <br> <?= "Dificuldade: " . $pergunta->getDificuldade() ?></p>
-                            <a href="<?= URL_RAIZ . 'perguntas/' . $pergunta->getId() . '/editar' ?>" class="btn btn-primary btn-xs" title="Editar">
+                            <a class="btn btn-xs btn-primary" href="<?= URL_RAIZ . 'perguntas/' . $pergunta->getId() . '/editar' ?>" title="Editar">
                                 <span class="glyphicon glyphicon-pencil"></span>EDITAR
                             </a>
-                            <form action="<?= URL_RAIZ . 'perguntas/' . $pergunta->getId() ?>" method="post" class="clearfix margin-bottom">
+                            <form class="clearfix margin-bottom" action="<?= URL_RAIZ . 'perguntas/' . $pergunta->getId() ?>" method="post">
                                 <input type="hidden" name="_metodo" value="DELETE">
                                 <button type="submit" class="btn btn-xs btn-danger" title="Deletar">
-                                    <!-- <img src="< ?= PASTA_PUBLICO . 'icons/svg/trash.svg' ?>" alt="DELETAR">  -->
                                     DELETAR
-                                    <!-- <span class="glyphicon glyphicon-trash"></span>  -->
                                 </button>
+
                             </form>
                         </div>
                     </div>
@@ -70,9 +75,11 @@
                         $alt = $pergunta->embaralhaPerguntas($pergunta);
                         for ($i = 1; $i <= 5; $i = $i + 1) :
                             if ($alt[$i] != null) : ?>
-                                <li class="list-group-item">
-                                    <form action=""> <?= $alt[$i] ?></form>
-                                </li>
+                                <a href="<?= URL_RAIZ . 'perguntas/' . $alt[$i] . '/' . $pergunta->getId() ?>">
+                                    <li class="list-group-item">
+                                        <?= $alt[$i] ?>
+                                    </li>
+                                </a>
                             <?php endif ?>
                         <?php endfor ?>
                     </ul>

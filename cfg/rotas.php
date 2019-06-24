@@ -33,4 +33,8 @@ $rotas = [
     '/perguntas/?/editar' => [
         'GET' => '\Controlador\PerguntaControlador#editar',
     ],
+
+    '/perguntas/?/?' => [
+        'GET' => '\Controlador\PerguntaControlador#responder',
+    ],
 ];

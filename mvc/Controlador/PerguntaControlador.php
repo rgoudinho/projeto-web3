@@ -12,7 +12,8 @@ class PerguntaControlador extends Controlador
     {
         $perguntas = Pergunta::buscarTodos();
         $this->visao('perguntas/index.php', [
-            'perguntas' => $perguntas
+            'perguntas' => $perguntas,
+            'mensagemFlash' => DW3Sessao::getFlash('mensagemFlash')
         ]);
     }
 
@@ -66,9 +67,16 @@ class PerguntaControlador extends Controlador
     public function editar($id)
     {
         $pergunta = Pergunta::buscarPeloId($id);
-        $this->visao('perguntas/editar.php', [
-            'pergunta' => $pergunta
-        ]);
+        $usuario = $this->getUsuario();
+
+        if ($pergunta->verificaUsuarioPergunta($id, $usuario)) {
+            $this->visao('perguntas/editar.php', [
+                'pergunta' => $pergunta
+            ]);
+        } else {
+            DW3Sessao::setFlash('mensagemFlash', 'Vocẽ não pode editar perguntas de outros usuarios.');
+            $this->redirecionar(URL_RAIZ . 'perguntas');
+        }
     }
 
     public function atualizar($id)
@@ -82,6 +90,17 @@ class PerguntaControlador extends Controlador
         $pergunta->setAlternativaErrada4($_POST['resposta-errada4']);
         $pergunta->setDificuldade($_POST['dificuldade']);
         $pergunta->salvar();
+        $this->redirecionar(URL_RAIZ . 'perguntas');
+    }
+
+    public function responder($resposta, $id_pergunta)
+    {
+        $pergunta = Pergunta::buscarPeloId($id_pergunta);
+        if($pergunta->verificarResposta($resposta)){
+            DW3Sessao::setFlash('mensagemFlash', 'Resposta correta.');
+        } else {
+            DW3Sessao::setFlash('mensagemFlash', 'Resposta errada.');
+        }
         $this->redirecionar(URL_RAIZ . 'perguntas');
     }
 }

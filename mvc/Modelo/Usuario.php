@@ -22,8 +22,7 @@ class Usuario extends Modelo
         $email = null,
         $senhaPlana = null,
         $id_usuario = null
-    )
-    {
+    ) {
         $this->email = $email;
         $this->id_usuario = $id_usuario;
         $this->nome = $nome;
@@ -81,7 +80,8 @@ class Usuario extends Modelo
         $this->inserir();
     }
 
-    public function inserir(){
+    public function inserir()
+    {
         DW3BancoDeDados::getPdo()->beginTransaction();
         $comando = DW3BancoDeDados::prepare(self::INSERIR);
         $comando->bindValue(1, $this->nome, PDO::PARAM_STR);
@@ -161,7 +161,6 @@ class Usuario extends Modelo
         $usuario = new Usuario(
             $registro['nome']
         );
-        return $usuario->getNome(); 
+        return $usuario->getNome();
     }
-
 }
