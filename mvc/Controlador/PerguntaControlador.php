@@ -68,18 +68,24 @@ class PerguntaControlador extends Controlador
             null,
             $foto
         );
-      
+
         $usuario = $this->getUsuario();
         $pergunta->setId_usuario($usuario->getId_usuario());
-        if($pergunta->isValido()){
+        if ($pergunta->isValido()) {
             $pergunta->salvar();
             DW3Sessao::setFlash('mensagemFlash', 'Pergunta cadastrada.');
             $this->redirecionar(URL_RAIZ . 'perguntas');
-        }else{
+        } else {
             $this->setErros($pergunta->getValidacaoErros());
-            $this->visao('perguntas/editar.php');
+            $this->visao(
+                'perguntas/criar.php',
+                [
+                    'pergunta' => $pergunta,
+                    'usuario' => $this->getUsuario(),
+                    'mensagem' => DW3Sessao::getFlash('mensagem', null)
+                ]
+            );
         }
-
     }
 
     public function destruir($id)

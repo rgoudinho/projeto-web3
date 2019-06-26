@@ -5,7 +5,6 @@ use \Modelo\Usuario;
 
 class UsuarioControlador extends Controlador
 {
-
     public function cadastro()
     {
         $this->visao('usuario/cadastrar.php');
