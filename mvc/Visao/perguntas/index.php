@@ -33,6 +33,17 @@
             </div>
         </div>
     </nav>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto">
+                <a href="<?=URL_RAIZ . 'perguntas/1'?>" class="btn btn-primary">Fácil</a>
+                <a href="<?=URL_RAIZ . 'perguntas/2'?>" class="btn btn-primary">Médio</a>
+                <a href="<?=URL_RAIZ . 'perguntas/3'?>" class="btn btn-primary">Difícil</a>
+            </div>
+        </div>
+    </div>
+    <br>
     <table class="table">
         <?php
         if (empty($perguntas)) : ?>
@@ -87,17 +98,16 @@
             </div>
             <br>
         <?php endforeach ?>
-        <div class="container">
-            <div class="row">
-                <div class="mx-auto">
-                    <?php if ($pagina > 1) : ?>
-                        <a href="<?= URL_RAIZ . 'perguntas?p=' . ($pagina - 1) ?>" class="btn" style="background-color:#eee;"><</a>
-                    <?php endif ?>
-                    <?php if ($pagina < $ultimaPagina) : ?>
-                        <a href="<?= URL_RAIZ . 'perguntas?p=' . ($pagina + 1) ?>" class="btn" style="background-color:#eee;">></a>
-                    <?php endif ?>
-                </div>
+    </table>
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto">
+                <?php if ($pagina > 1) : ?>
+                    <a href="<?= URL_RAIZ . 'perguntas?p=' . ($pagina - 1) ?>" class="btn" style="background-color:#eee;">
+                        <</a> <?php endif ?> <?php if ($pagina < $ultimaPagina) : ?> <a href="<?= URL_RAIZ . 'perguntas?p=' . ($pagina + 1) ?>" class="btn" style="background-color:#eee;">>
+                    </a>
+                <?php endif ?>
             </div>
         </div>
-    </table>
+    </div>
 </div>

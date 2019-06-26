@@ -7,13 +7,18 @@ use Modelo\Usuario;
 
 class PerguntaControlador extends Controlador
 {
-    private function calcularPaginacao()
+    private function calcularPaginacao($dificuldade = null)
     {
         $pagina = array_key_exists('p', $_GET) ? intval($_GET['p']) : 1;
         $limit = 4;
         $offset = ($pagina - 1) * $limit;
-        $perguntas = Pergunta::buscarTodos($limit, $offset);
-        $ultimaPagina = ceil(Pergunta::contarTodos() / $limit);
+        if ($dificuldade == null) {
+            $perguntas = Pergunta::buscarTodos($limit, $offset);
+            $ultimaPagina = ceil(Pergunta::contarTodos() / $limit);
+        } else {
+            $perguntas = Pergunta::buscarTodosPorDificuldade($limit, $offset, $dificuldade);
+            $ultimaPagina = ceil(Pergunta::contarTodosPorDificuldade($dificuldade) / $limit);
+        }
         return compact('pagina', 'perguntas', 'ultimaPagina');
     }
 
@@ -34,6 +39,17 @@ class PerguntaControlador extends Controlador
         $this->visao('perguntas/criar.php', [
             'usuario' => $this->getUsuario(),
             'mensagem' => DW3Sessao::getFlash('mensagem', null)
+        ]);
+    }
+
+    public function trazerPorDificuldade($dificuldade)
+    {
+        $paginacao = $this->calcularPaginacao($dificuldade);
+        $this->visao('perguntas/index.php', [
+            'pagina' => $paginacao['pagina'],
+            'ultimaPagina' => $paginacao['ultimaPagina'],
+            'perguntas' => $paginacao['perguntas'],
+            'mensagemFlash' => DW3Sessao::getFlash('mensagemFlash')
         ]);
     }
 
@@ -106,11 +122,14 @@ class PerguntaControlador extends Controlador
 
     public function responder($resposta, $id_pergunta)
     {
+        // echo 'resposta' . $resposta;
+        // echo 'id_pergunta' . $id_pergunta;
+        // exit;
         $pergunta = Pergunta::buscarPeloId($id_pergunta);
         $usuarioAtivo = $this->getUsuario();
-        if ($pergunta->getId_usuario() == $usuarioAtivo->getId_usuario()){
+        if ($pergunta->getId_usuario() == $usuarioAtivo->getId_usuario()) {
             DW3Sessao::setFlash('mensagemFlash', 'O usuario que criou a pergunta não pode responde-lá.');
-        } elseif ($pergunta->verificarResposta($resposta)){
+        } elseif ($pergunta->verificarResposta($resposta)) {
             DW3Sessao::setFlash('mensagemFlash', 'Resposta correta.');
         } else {
             DW3Sessao::setFlash('mensagemFlash', 'Resposta errada.');

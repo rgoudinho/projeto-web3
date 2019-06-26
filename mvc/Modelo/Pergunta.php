@@ -8,13 +8,15 @@ use \Modelo\Usuario;
 
 class Pergunta extends Modelo
 {
-    const BUSCAR_TODOS = 'SELECT * FROM perguntas WHERE dificuldade = ? ORDER BY id LIMIT ? OFFSET ?';
+    const BUSCAR_TODOS = 'SELECT * FROM perguntas ORDER BY id LIMIT ? OFFSET ?';
+    const BUSCAR_POR_DIFICULDADE = 'SELECT * FROM perguntas WHERE dificuldade = ? ORDER BY id LIMIT ? OFFSET ?';
     const INSERIR = 'INSERT INTO perguntas(pergunta, alternativa_correta, alternativa_errada1, alternativa_errada2, alternativa_errada3, alternativa_errada4, dificuldade, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     const BUSCAR_PELO_ID = 'SELECT * FROM perguntas WHERE id = ? LIMIT 1';
     const DELETAR = 'DELETE FROM perguntas WHERE id = ?';
     const ATUALIZAR = 'UPDATE perguntas SET pergunta = ?, alternativa_correta = ?, alternativa_errada1 = ?, alternativa_errada2 = ?, alternativa_errada3 = ?, alternativa_errada4 = ?, dificuldade = ?, id_usuario = ? WHERE id = ?';
     const BUSCAR_PELA_PERGUNTA = 'SELECT * FROM perguntas WHERE pergunta = ? LIMIT 1';
     const CONTAR_TODOS = 'SELECT count(id) FROM perguntas';
+    const CONTAR_TODOS_POR_DIFICULDADE = 'SELECT count(id) FROM perguntas WHERE dificuldade = ? ';
 
     private $id;
     private $pergunta;
@@ -190,7 +192,7 @@ class Pergunta extends Modelo
     { 
         $pergunta = $this->buscarPeloId($id);
 
-        if($pergunta->getId_usuario() == $usuarioAtivo->getId_usuario() ){
+        if($pergunta->getId_usuario() == $usuarioAtivo->getId_usuario()){
             return true;
         } else {
             return false;
@@ -204,20 +206,47 @@ class Pergunta extends Modelo
         return intval($total[0]);
     }
 
-    public static function buscarTodos($limit = 4, $offset = 0)
+    public static function contarTodosPorDificuldade($dificuldade)
     {
-        $perguntas = [];
-        $perguntas = buscarPelaDificuldade($limit, $offset, 'Difícil');
-        $perguntas = buscarPelaDificuldade($limit, $offset, 'Média');
-        $perguntas = buscarPelaDificuldade($limit, $offset, 'Facíl');
+        $comando = DW3BancoDeDados::prepare(self::CONTAR_TODOS_POR_DIFICULDADE);
+        $comando->bindvalue(1, $dificuldade, PDO::PARAM_INT);
+        $comando->execute();
+        $total = $comando->fetch();
+        return intval($total[0]);
     }
 
-    public static function buscarPelaDificuldade($limit = 4, $offset = 0, $nivel = null)
+
+    public static function buscarTodos($limit = 4, $offset = 0)
     {
         $comando = DW3BancoDeDados::prepare(self::BUSCAR_TODOS);
         $comando->bindvalue(1, $limit, PDO::PARAM_INT);
         $comando->bindvalue(2, $offset, PDO::PARAM_INT);
-        $comando->bindvalue(3, $nivel, PDO::PARAM_STR);
+        $comando->execute();
+        $registros = $comando->fetchAll();
+        $objetos = [];
+        foreach ($registros as $registro) {
+            $objetos[] = new Pergunta(
+                $registro['pergunta'],
+                $registro['alternativa_correta'],
+                $registro['alternativa_errada1'],
+                $registro['alternativa_errada2'],
+                $registro['alternativa_errada3'],
+                $registro['alternativa_errada4'],
+                $registro['dificuldade'],
+                $registro['id_usuario'],
+                null,
+                $registro['id']
+            );
+        }
+        return $objetos;
+    }
+
+    public static function buscarTodosPorDificuldade($limit, $offset, $dificuldade)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_POR_DIFICULDADE);
+        $comando->bindvalue(1, $dificuldade, PDO::PARAM_INT);
+        $comando->bindvalue(2, $limit, PDO::PARAM_INT);
+        $comando->bindvalue(3, $offset, PDO::PARAM_INT);
         $comando->execute();
         $registros = $comando->fetchAll();
         $objetos = [];
@@ -290,7 +319,7 @@ class Pergunta extends Modelo
         $comando->bindValue(4, $this->alternativaErrada2, PDO::PARAM_STR);
         $comando->bindValue(5, $this->alternativaErrada3, PDO::PARAM_STR);
         $comando->bindValue(6, $this->alternativaErrada4, PDO::PARAM_STR);
-        $comando->bindValue(7, $this->dificuldade, PDO::PARAM_STR);
+        $comando->bindValue(7, $this->dificuldade, PDO::PARAM_INT);
         $comando->bindValue(8, $this->id_usuario, PDO::PARAM_INT);
         $comando->bindValue(9, $this->id, PDO::PARAM_INT);
         $comando->execute();
@@ -307,7 +336,7 @@ class Pergunta extends Modelo
         $comando->bindValue(4, $this->alternativaErrada2, PDO::PARAM_STR);
         $comando->bindValue(5, $this->alternativaErrada3, PDO::PARAM_STR);
         $comando->bindValue(6, $this->alternativaErrada4, PDO::PARAM_STR);
-        $comando->bindValue(7, $this->dificuldade, PDO::PARAM_STR);
+        $comando->bindValue(7, $this->dificuldade, PDO::PARAM_INT);
         $comando->bindValue(8, $this->id_usuario, PDO::PARAM_STR);
         $comando->execute();
         $this->id = DW3BancoDeDados::getPdo()->lastInsertId();

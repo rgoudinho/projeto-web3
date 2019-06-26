@@ -45,9 +45,9 @@
             </div>
             <label for="my-1 mr-2">Selecione o nivel de dificuldade</label>
             <select id="dificuldade" name="dificuldade" class="custom-select col-sm-2 col-lg-2">
-                <option value="facil">Facíl</option>
-                <option value="medio">Médio</option>
-                <option value="dificil">Difícil</option>
+                <option value="1">Facíl</option>
+                <option value="2">Médio</option>
+                <option value="3">Difícil</option>
             </select>
             Selecione uma imagem: <input name="foto" type="file" id="foto" />
             <?php $this->incluirVisao('util/formErro.php', ['campo' => 'foto']) ?>

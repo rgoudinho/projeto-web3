@@ -26,6 +26,7 @@ $rotas = [
     ],
 
     '/perguntas/?' => [
+        'GET' => '\Controlador\PerguntaControlador#trazerPorDificuldade',
         'PATCH' => '\Controlador\PerguntaControlador#atualizar',
         'DELETE' => '\Controlador\PerguntaControlador#destruir',
     ],
