@@ -15,7 +15,7 @@
                     <a class="nav-link" href="perguntas">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="criar">Criar pergunta</a>
+                    <a class="nav-link" href="perguntas/criar">Criar pergunta</a>
                 </li>
             </ul>
             <div class="my-2 my-lg-0">
@@ -37,9 +37,9 @@
     <div class="container">
         <div class="row">
             <div class="mx-auto">
-                <a href="<?=URL_RAIZ . 'perguntas/1'?>" class="btn btn-primary">Fácil</a>
-                <a href="<?=URL_RAIZ . 'perguntas/2'?>" class="btn btn-primary">Médio</a>
-                <a href="<?=URL_RAIZ . 'perguntas/3'?>" class="btn btn-primary">Difícil</a>
+                <a href="<?= URL_RAIZ . 'perguntas/1' ?>" class="btn btn-primary">Fácil</a>
+                <a href="<?= URL_RAIZ . 'perguntas/2' ?>" class="btn btn-primary">Médio</a>
+                <a href="<?= URL_RAIZ . 'perguntas/3' ?>" class="btn btn-primary">Difícil</a>
             </div>
         </div>
     </div>
@@ -51,15 +51,18 @@
                 <td colspan="99" class="text-center">Nenhum pergunta encontrada encontrada.</td>
             </tr>
         <?php endif ?>
+        <div class="col-lg-8 mx-auto">
+            <?php if ($mensagemFlash) : ?>
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <?= $mensagemFlash ?>
+                </div>
+            <?php endif ?>
+        </div>
         <?php foreach ($perguntas as $pergunta) : ?>
             <div class="container">
                 <div class="card col-lg-8 mx-auto" style="background-color:#eee;">
-                    <?php if ($mensagemFlash) : ?>
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <?= $mensagemFlash ?>
-                        </div>
-                    <?php endif ?>
+
                     <div class="row">
                         <div class="col-sm-6 mx-auto">
                             <img src="<?= URL_IMG . $pergunta->getFoto() ?>" class="card-img-top">

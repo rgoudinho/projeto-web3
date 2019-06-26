@@ -14,10 +14,11 @@
             A pergunta deve ser objetiva, deve ter entre 2 a 5 opções de resposta,
             deve conter o nível de dificuldade e uma foto.
         </P>
-        <form action="<?= URL_RAIZ . 'criar' ?>" method="post" enctype="multipart/form-data">
-            <div class="form-group">
+        <form action="<?= URL_RAIZ . 'perguntas/criar' ?>" method="post" enctype="multipart/form-data">
+            <div class="form-group <?= $this->getErroCss('pergunta') ?>">
                 <label for="usuario">Usuario*</label>
-                <input type="text" value="<?= $usuario->getNome() ?>" name="usuario" id="usuario" class="form-control">
+                <?php $this->incluirVisao('util/formErro.php', ['campo' => 'pergunta']) ?>
+                <input type="text" value="<?= $usuario->getNome() ?>" name="usuario" id="usuario" class="form-control" disabled>
             </div>
             <div class="form-group">
                 <label for="pergunta">Pergunta*</label>
@@ -52,7 +53,12 @@
             Selecione uma imagem: <input name="foto" type="file" id="foto" />
             <?php $this->incluirVisao('util/formErro.php', ['campo' => 'foto']) ?>
             <br />
-            <input id="submiter" type="submit" value="Salvar" />
+            <div class="row">
+                <div class="mx-auto">
+                    <input class="btn btn-primary" id="submiter" type="submit" value="Salvar" />
+                </div>
+            </div>
+            <br>
         </form>
     </div>
 </div>

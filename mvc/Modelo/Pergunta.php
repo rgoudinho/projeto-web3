@@ -97,7 +97,12 @@ class Pergunta extends Modelo
 
     public function getDificuldade()
     {
-        return $this->dificuldade;
+        if ($this->dificuldade == 1)
+            return "Facíl";
+        elseif ($this->dificuldade == 2)
+            return "Médio";
+        else
+            return "Didícil";
     }
 
     public function getAleatorios()
@@ -189,10 +194,10 @@ class Pergunta extends Modelo
     }
 
     public function verificaUsuarioPergunta($id, $usuarioAtivo)
-    { 
+    {
         $pergunta = $this->buscarPeloId($id);
 
-        if($pergunta->getId_usuario() == $usuarioAtivo->getId_usuario()){
+        if ($pergunta->getId_usuario() == $usuarioAtivo->getId_usuario()) {
             return true;
         } else {
             return false;
@@ -338,6 +343,7 @@ class Pergunta extends Modelo
         $comando->bindValue(6, $this->alternativaErrada4, PDO::PARAM_STR);
         $comando->bindValue(7, $this->dificuldade, PDO::PARAM_INT);
         $comando->bindValue(8, $this->id_usuario, PDO::PARAM_STR);
+
         $comando->execute();
         $this->id = DW3BancoDeDados::getPdo()->lastInsertId();
         DW3BancoDeDados::getPdo()->commit();
@@ -407,5 +413,21 @@ class Pergunta extends Modelo
                 $this->setAleatorios($posicao, $aleatorio);
                 return $pergunta->getAlternativaErrada4();
         }
+    }
+
+    protected function verificarErros()
+    {
+        if (strlen($this->pergunta) < 10 || strlen($this->pergunta) < 1000)
+            $this->setErroMensagem('pergunta', 'Mínimo 10 caracteres e maximo de 1000.');
+        if (strlen($this->alternativaCorreta) < 1 || strlen($this->alternativaCorreta) > 200)
+            $this->setErroMensagem('alternativacorreta', 'Mínimo 1 caracteres e maximo de 200.');
+        if (strlen($this->alternativaErrada1) < 1 || strlen($this->alternativaErrada1) > 200)
+            $this->setErroMensagem('alternativaErrada1', 'Mínimo 1 caracteres e maximo de 200.');
+        if  (strlen($this->alternativaErrada2) > 200)
+            $this->setErroMensagem('alternativaErrada2', 'Maximo de 200.');
+        if (strlen($this->alternativaErrada3) > 200)
+            $this->setErroMensagem('alternativaErrada3', 'Maximo de 200.');
+        if (strlen($this->alternativaErrada4) > 200)
+            $this->setErroMensagem('alternativaErrada4', 'Maximo de 200.');
     }
 }

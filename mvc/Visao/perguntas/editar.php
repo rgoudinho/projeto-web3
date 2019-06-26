@@ -48,10 +48,17 @@ use Modelo\Usuario;
                 <option value="3">Difícil</option>
             </select>
             <br>
+            <br>
             Selecione uma imagem: <input name="foto" type="file" id="foto">
             <?php $this->incluirVisao('util/formErro.php', ['campo' => 'foto']) ?>
-            <br />
-            <input id="submiter" class="btn btn-primary center-block" type="submit" value="Editar" />
+            <br>
+            <br>
+            <div class="row">
+                <div class="mx-auto">
+                    <input class="btn btn-primary" id="submiter" type="submit" value="Editar" />
+                </div>
+            </div>
+            <br>
         </form>
     </div>
 </div>
