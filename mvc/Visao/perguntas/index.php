@@ -66,7 +66,6 @@
                                 <button type="submit" class="btn btn-xs btn-danger" title="Deletar">
                                     DELETAR
                                 </button>
-
                             </form>
                         </div>
                     </div>
@@ -88,5 +87,17 @@
             </div>
             <br>
         <?php endforeach ?>
+        <div class="container">
+            <div class="row">
+                <div class="mx-auto">
+                    <?php if ($pagina > 1) : ?>
+                        <a href="<?= URL_RAIZ . 'perguntas?p=' . ($pagina - 1) ?>" class="btn" style="background-color:#eee;"><</a>
+                    <?php endif ?>
+                    <?php if ($pagina < $ultimaPagina) : ?>
+                        <a href="<?= URL_RAIZ . 'perguntas?p=' . ($pagina + 1) ?>" class="btn" style="background-color:#eee;">></a>
+                    <?php endif ?>
+                </div>
+            </div>
+        </div>
     </table>
 </div>

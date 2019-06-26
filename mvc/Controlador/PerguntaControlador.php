@@ -7,12 +7,23 @@ use Modelo\Usuario;
 
 class PerguntaControlador extends Controlador
 {
+    private function calcularPaginacao()
+    {
+        $pagina = array_key_exists('p', $_GET) ? intval($_GET['p']) : 1;
+        $limit = 4;
+        $offset = ($pagina - 1) * $limit;
+        $perguntas = Pergunta::buscarTodos($limit, $offset);
+        $ultimaPagina = ceil(Pergunta::contarTodos() / $limit);
+        return compact('pagina', 'perguntas', 'ultimaPagina');
+    }
 
     public function index()
     {
-        $perguntas = Pergunta::buscarTodos();
+        $paginacao = $this->calcularPaginacao();
         $this->visao('perguntas/index.php', [
-            'perguntas' => $perguntas,
+            'pagina' => $paginacao['pagina'],
+            'ultimaPagina' => $paginacao['ultimaPagina'],
+            'perguntas' => $paginacao['perguntas'],
             'mensagemFlash' => DW3Sessao::getFlash('mensagemFlash')
         ]);
     }
@@ -96,7 +107,10 @@ class PerguntaControlador extends Controlador
     public function responder($resposta, $id_pergunta)
     {
         $pergunta = Pergunta::buscarPeloId($id_pergunta);
-        if($pergunta->verificarResposta($resposta)){
+        $usuarioAtivo = $this->getUsuario();
+        if ($pergunta->getId_usuario() == $usuarioAtivo->getId_usuario()){
+            DW3Sessao::setFlash('mensagemFlash', 'O usuario que criou a pergunta não pode responde-lá.');
+        } elseif ($pergunta->verificarResposta($resposta)){
             DW3Sessao::setFlash('mensagemFlash', 'Resposta correta.');
         } else {
             DW3Sessao::setFlash('mensagemFlash', 'Resposta errada.');

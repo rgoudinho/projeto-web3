@@ -8,12 +8,13 @@ use \Modelo\Usuario;
 
 class Pergunta extends Modelo
 {
-    const BUSCAR_TODOS = 'SELECT * FROM perguntas';
+    const BUSCAR_TODOS = 'SELECT * FROM perguntas WHERE dificuldade = ? ORDER BY id LIMIT ? OFFSET ?';
     const INSERIR = 'INSERT INTO perguntas(pergunta, alternativa_correta, alternativa_errada1, alternativa_errada2, alternativa_errada3, alternativa_errada4, dificuldade, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     const BUSCAR_PELO_ID = 'SELECT * FROM perguntas WHERE id = ? LIMIT 1';
     const DELETAR = 'DELETE FROM perguntas WHERE id = ?';
     const ATUALIZAR = 'UPDATE perguntas SET pergunta = ?, alternativa_correta = ?, alternativa_errada1 = ?, alternativa_errada2 = ?, alternativa_errada3 = ?, alternativa_errada4 = ?, dificuldade = ?, id_usuario = ? WHERE id = ?';
     const BUSCAR_PELA_PERGUNTA = 'SELECT * FROM perguntas WHERE pergunta = ? LIMIT 1';
+    const CONTAR_TODOS = 'SELECT count(id) FROM perguntas';
 
     private $id;
     private $pergunta;
@@ -196,9 +197,29 @@ class Pergunta extends Modelo
         }
     }
 
-    public static function buscarTodos()
+    public static function contarTodos()
     {
-        $registros = DW3BancoDeDados::query(self::BUSCAR_TODOS);
+        $registros = DW3BancoDeDados::query(self::CONTAR_TODOS);
+        $total = $registros->fetch();
+        return intval($total[0]);
+    }
+
+    public static function buscarTodos($limit = 4, $offset = 0)
+    {
+        $perguntas = [];
+        $perguntas = buscarPelaDificuldade($limit, $offset, 'Difícil');
+        $perguntas = buscarPelaDificuldade($limit, $offset, 'Média');
+        $perguntas = buscarPelaDificuldade($limit, $offset, 'Facíl');
+    }
+
+    public static function buscarPelaDificuldade($limit = 4, $offset = 0, $nivel = null)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_TODOS);
+        $comando->bindvalue(1, $limit, PDO::PARAM_INT);
+        $comando->bindvalue(2, $offset, PDO::PARAM_INT);
+        $comando->bindvalue(3, $nivel, PDO::PARAM_STR);
+        $comando->execute();
+        $registros = $comando->fetchAll();
         $objetos = [];
         foreach ($registros as $registro) {
             $objetos[] = new Pergunta(
