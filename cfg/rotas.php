@@ -14,6 +14,10 @@ $rotas = [
         'POST' => '\Controlador\PerguntaControlador#armazenar',
     ],
 
+    '/perguntas/relatorio' => [
+        'GET' => '\Controlador\RelatorioControlador#gerar'
+    ],
+
     '/usuario/cadastrar' => [
         'GET' => '\Controlador\UsuarioControlador#cadastro',
         'POST' => '\Controlador\UsuarioControlador#armazenar',

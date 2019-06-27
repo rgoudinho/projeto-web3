@@ -3,7 +3,7 @@ namespace Controlador;
 
 use \Modelo\Pergunta;
 use \framework\DW3Sessao;
-use Modelo\Usuario;
+use \Modelo\Usuario;
 
 class PerguntaControlador extends Controlador
 {

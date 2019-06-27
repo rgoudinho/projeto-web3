@@ -17,6 +17,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="perguntas/criar">Criar pergunta</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="perguntas/relatorio">Relatorio</a>
+                </li>
             </ul>
             <div class="my-2 my-lg-0">
                 <?php
