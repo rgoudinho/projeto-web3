@@ -129,8 +129,22 @@ class PerguntaControlador extends Controlador
         $pergunta->setAlternativaErrada3($_POST['resposta-errada3']);
         $pergunta->setAlternativaErrada4($_POST['resposta-errada4']);
         $pergunta->setDificuldade($_POST['dificuldade']);
-        $pergunta->salvar();
-        $this->redirecionar(URL_RAIZ . 'perguntas');
+
+        if ($pergunta->isValido()) {
+            $pergunta->salvar();
+            DW3Sessao::setFlash('mensagemFlash', 'Pergunta atualizada.');
+            $this->redirecionar(URL_RAIZ . 'perguntas');
+        } else {
+            $this->setErros($pergunta->getValidacaoErros());
+            $this->visao(
+                'perguntas/editar.php',
+                [
+                    'pergunta' => $pergunta,
+                    'usuario' => $this->getUsuario(),
+                    'mensagem' => DW3Sessao::getFlash('mensagem', null)
+                ]
+            );
+        }
     }
 
     public function responder($resposta, $id_pergunta)

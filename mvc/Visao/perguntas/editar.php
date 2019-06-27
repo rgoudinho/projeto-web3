@@ -17,28 +17,40 @@ use Modelo\Usuario;
                 <label for="usuario">Usuario*</label>
                 <input type="text" value="<?= Usuario::buscarNome($pergunta->getId_usuario()) ?>" name="usuario" id="usuario" class="form-control" disabled>
             </div>
-            <div class="form-group">
+            <div class="form-group <?= $this->getErroCss('pergunta') ?>">
                 <label for="pergunta">Pergunta*</label>
+                <br>
+                <?php $this->incluirVisao('util/formErro.php', ['campo' => 'pergunta']) ?>
                 <input type="text" class="form-control" id="pergunta" name="pergunta" value="<?= $pergunta->getPergunta() ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group <?= $this->getErroCss('alternativacorreta') ?>">
                 <label for="respostaCorreta">Resposta correta*</label>
+                <br>
+                <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativacorreta']) ?>
                 <input type="text" class="form-control" name="resposta-correta" id="resposta-correta" value="<?= $pergunta->getAlternativaCorreta() ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group <?= $this->getErroCss('alternativaErrada1') ?>">
                 <label for="respostaErrada1">Primeira resposta errada*</label>
+                <br>
+                <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativaErrada1']) ?>
                 <input type="text" class="form-control" name="resposta-errada1" id="resposta-errada1" value="<?= $pergunta->getAlternativaErrada1() ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group <?= $this->getErroCss('alternativaErrada2') ?>">
                 <label for="respostaErrada2">Segunda resposta errada</label>
+                <br>
+                <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativaErrada2']) ?>
                 <input type="text" class="form-control" name="resposta-errada2" id="resposta-errada2" value="<?= $pergunta->getAlternativaErrada2() ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group <?= $this->getErroCss('alternativaErrada3') ?>">
                 <label for="respostaErrada3">Terceira resposta errada</label>
+                <br>
+                <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativaErrada3']) ?>
                 <input type="text" class="form-control" name="resposta-errada3" id="resposta-errada3" value="<?= $pergunta->getAlternativaErrada3() ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group <?= $this->getErroCss('alternativaErrada4') ?>">
                 <label for="respostaErrada4">Quarta resposta errada</label>
+                <br>
+                <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativaErrada4']) ?>
                 <input type="text" class="form-control" name="resposta-errada4" id="resposta-errada4" value="<?= $pergunta->getAlternativaErrada4() ?>">
             </div>
             <label for="my-1 mr-2">Selecione o nivel de dificuldade</label>

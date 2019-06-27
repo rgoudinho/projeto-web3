@@ -417,7 +417,7 @@ class Pergunta extends Modelo
 
     protected function verificarErros()
     {
-        if (strlen($this->pergunta) < 10 || strlen($this->pergunta) < 1000)
+        if (strlen($this->pergunta) < 10 || strlen($this->pergunta) > 1000)
             $this->setErroMensagem('pergunta', 'Mínimo 10 caracteres e maximo de 1000.');
         if (strlen($this->alternativaCorreta) < 1 || strlen($this->alternativaCorreta) > 200)
             $this->setErroMensagem('alternativacorreta', 'Mínimo 1 caracteres e maximo de 200.');
