@@ -17,6 +17,10 @@ class Pergunta extends Modelo
     const BUSCAR_PELA_PERGUNTA = 'SELECT * FROM perguntas WHERE pergunta = ? LIMIT 1';
     const CONTAR_TODOS = 'SELECT count(id) FROM perguntas';
     const CONTAR_TODOS_POR_DIFICULDADE = 'SELECT count(id) FROM perguntas WHERE dificuldade = ? ';
+    const ATUALIZAR_ACERTOS = 'UPDATE perguntas SET acertos = ? WHERE id = ?';
+    const ATUALIZAR_ERROS = 'UPDATE perguntas SET erros = ? WHERE id = ?';
+    const BUSCA_ACERTOS = 'SELECT acertos FROM perguntas WHERE id = ?';
+    const BUSCA_ERROS = 'SELECT erros FROM perguntas WHERE id = ?';
 
     private $id;
     private $pergunta;
@@ -28,6 +32,8 @@ class Pergunta extends Modelo
     private $alternativaErrada3;
     private $alternativaErrada4;
     private $foto;
+    private $acertos;
+    private $erros;
 
     private $aleatorios = [];
 
@@ -124,6 +130,16 @@ class Pergunta extends Modelo
         return Usuario::buscarNome($this->getId_usuario());
     }
 
+    public function getAcertos()
+    {
+        return $this->acertos;
+    }
+
+    public function getErros()
+    {
+        return $this->erros;
+    }
+
     public function setId_usuario($id_usuario)
     {
         return $this->id_usuario = $id_usuario;
@@ -169,10 +185,111 @@ class Pergunta extends Modelo
         $this->dificuldade = $dificuldade;
     }
 
-    public static function buscarPelaPrgunta($pergunta)
+    public function setAcertos($acerto)
+    {
+        $this->acertos = $acerto;
+    }
+
+    public function setErros($erro)
+    {
+        $this->erros = $erro;
+    }
+
+    public static function buscarTodos($limit = 4, $offset = 0)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_TODOS);
+        $comando->bindvalue(1, $limit, PDO::PARAM_INT);
+        $comando->bindvalue(2, $offset, PDO::PARAM_INT);
+        $comando->execute();
+        $registros = $comando->fetchAll();
+        $objetos = [];
+        foreach ($registros as $registro) {
+            $objetos[] = new Pergunta(
+                $registro['pergunta'],
+                $registro['alternativa_correta'],
+                $registro['alternativa_errada1'],
+                $registro['alternativa_errada2'],
+                $registro['alternativa_errada3'],
+                $registro['alternativa_errada4'],
+                $registro['dificuldade'],
+                $registro['id_usuario'],
+                null,
+                $registro['id']
+            );
+        }
+        return $objetos;
+    }
+
+    public static function buscarPelaPergunta($pergunta)
     {
         $comando = DW3BancoDeDados::prepare(self::BUSCAR_PELA_PERGUNTA);
         $comando->bindValue(1, $pergunta, PDO::PARAM_INT);
+        $comando->execute();
+        $objeto = null;
+        $registro = $comando->fetch();
+        if ($registro) {
+            $objeto = new Pergunta(
+                $registro['pergunta'],
+                $registro['alternativa_correta'],
+                $registro['alternativa_errada1'],
+                $registro['alternativa_errada2'],
+                $registro['alternativa_errada3'],
+                $registro['alternativa_errada4'],
+                $registro['dificuldade'],
+                $registro['id_usuario'],
+                null,
+                $registro['id']
+            );
+        }
+        return $objeto;
+    }
+
+    public static function buscarTodosPorDificuldade($limit, $offset, $dificuldade)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_POR_DIFICULDADE);
+        $comando->bindvalue(1, $dificuldade, PDO::PARAM_INT);
+        $comando->bindvalue(2, $limit, PDO::PARAM_INT);
+        $comando->bindvalue(3, $offset, PDO::PARAM_INT);
+        $comando->execute();
+        $registros = $comando->fetchAll();
+        $objetos = [];
+        foreach ($registros as $registro) {
+            $objetos[] = new Pergunta(
+                $registro['pergunta'],
+                $registro['alternativa_correta'],
+                $registro['alternativa_errada1'],
+                $registro['alternativa_errada2'],
+                $registro['alternativa_errada3'],
+                $registro['alternativa_errada4'],
+                $registro['dificuldade'],
+                $registro['id_usuario'],
+                null,
+                $registro['id']
+            );
+        }
+        return $objetos;
+    }
+
+    public static function contarTodos()
+    {
+        $registros = DW3BancoDeDados::query(self::CONTAR_TODOS);
+        $total = $registros->fetch();
+        return intval($total[0]);
+    }
+
+    public static function contarTodosPorDificuldade($dificuldade)
+    {
+        $comando = DW3BancoDeDados::prepare(self::CONTAR_TODOS_POR_DIFICULDADE);
+        $comando->bindvalue(1, $dificuldade, PDO::PARAM_INT);
+        $comando->execute();
+        $total = $comando->fetch();
+        return intval($total[0]);
+    }
+
+    public static function buscarPeloId($id)
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCAR_PELO_ID);
+        $comando->bindValue(1, $id, PDO::PARAM_INT);
         $comando->execute();
         $objeto = null;
         $registro = $comando->fetch();
@@ -204,98 +321,6 @@ class Pergunta extends Modelo
         }
     }
 
-    public static function contarTodos()
-    {
-        $registros = DW3BancoDeDados::query(self::CONTAR_TODOS);
-        $total = $registros->fetch();
-        return intval($total[0]);
-    }
-
-    public static function contarTodosPorDificuldade($dificuldade)
-    {
-        $comando = DW3BancoDeDados::prepare(self::CONTAR_TODOS_POR_DIFICULDADE);
-        $comando->bindvalue(1, $dificuldade, PDO::PARAM_INT);
-        $comando->execute();
-        $total = $comando->fetch();
-        return intval($total[0]);
-    }
-
-
-    public static function buscarTodos($limit = 4, $offset = 0)
-    {
-        $comando = DW3BancoDeDados::prepare(self::BUSCAR_TODOS);
-        $comando->bindvalue(1, $limit, PDO::PARAM_INT);
-        $comando->bindvalue(2, $offset, PDO::PARAM_INT);
-        $comando->execute();
-        $registros = $comando->fetchAll();
-        $objetos = [];
-        foreach ($registros as $registro) {
-            $objetos[] = new Pergunta(
-                $registro['pergunta'],
-                $registro['alternativa_correta'],
-                $registro['alternativa_errada1'],
-                $registro['alternativa_errada2'],
-                $registro['alternativa_errada3'],
-                $registro['alternativa_errada4'],
-                $registro['dificuldade'],
-                $registro['id_usuario'],
-                null,
-                $registro['id']
-            );
-        }
-        return $objetos;
-    }
-
-    public static function buscarTodosPorDificuldade($limit, $offset, $dificuldade)
-    {
-        $comando = DW3BancoDeDados::prepare(self::BUSCAR_POR_DIFICULDADE);
-        $comando->bindvalue(1, $dificuldade, PDO::PARAM_INT);
-        $comando->bindvalue(2, $limit, PDO::PARAM_INT);
-        $comando->bindvalue(3, $offset, PDO::PARAM_INT);
-        $comando->execute();
-        $registros = $comando->fetchAll();
-        $objetos = [];
-        foreach ($registros as $registro) {
-            $objetos[] = new Pergunta(
-                $registro['pergunta'],
-                $registro['alternativa_correta'],
-                $registro['alternativa_errada1'],
-                $registro['alternativa_errada2'],
-                $registro['alternativa_errada3'],
-                $registro['alternativa_errada4'],
-                $registro['dificuldade'],
-                $registro['id_usuario'],
-                null,
-                $registro['id']
-            );
-        }
-        return $objetos;
-    }
-
-    public static function buscarPeloId($id)
-    {
-        $comando = DW3BancoDeDados::prepare(self::BUSCAR_PELO_ID);
-        $comando->bindValue(1, $id, PDO::PARAM_INT);
-        $comando->execute();
-        $objeto = null;
-        $registro = $comando->fetch();
-        if ($registro) {
-            $objeto = new Pergunta(
-                $registro['pergunta'],
-                $registro['alternativa_correta'],
-                $registro['alternativa_errada1'],
-                $registro['alternativa_errada2'],
-                $registro['alternativa_errada3'],
-                $registro['alternativa_errada4'],
-                $registro['dificuldade'],
-                $registro['id_usuario'],
-                null,
-                $registro['id']
-            );
-        }
-        return $objeto;
-    }
-
     public function verificarResposta($resposta)
     {
         if ($resposta == $this->getAlternativaCorreta()) {
@@ -305,6 +330,22 @@ class Pergunta extends Modelo
         }
     }
 
+    protected function verificarErros()
+    {
+        if (strlen($this->pergunta) < 10 || strlen($this->pergunta) > 1000)
+            $this->setErroMensagem('pergunta', 'Mínimo 10 caracteres e maximo de 1000.');
+        if (strlen($this->alternativaCorreta) < 1 || strlen($this->alternativaCorreta) > 200)
+            $this->setErroMensagem('alternativacorreta', 'Mínimo 1 caracteres e maximo de 200.');
+        if (strlen($this->alternativaErrada1) < 1 || strlen($this->alternativaErrada1) > 200)
+            $this->setErroMensagem('alternativaErrada1', 'Mínimo 1 caracteres e maximo de 200.');
+        if (strlen($this->alternativaErrada2) > 200)
+            $this->setErroMensagem('alternativaErrada2', 'Maximo de 200.');
+        if (strlen($this->alternativaErrada3) > 200)
+            $this->setErroMensagem('alternativaErrada3', 'Maximo de 200.');
+        if (strlen($this->alternativaErrada4) > 200)
+            $this->setErroMensagem('alternativaErrada4', 'Maximo de 200.');
+    }
+
     public function salvar()
     {
         if ($this->id == null) {
@@ -312,6 +353,15 @@ class Pergunta extends Modelo
             $this->salvarImagem();
         } else {
             $this->atualizar();
+        }
+    }
+
+    private function salvarImagem()
+    {
+        if (DW3ImagemUpload::isValida($this->foto)) {
+            $nomeCompleto = PASTA_PUBLICO . "img/{$this->id}.png";
+
+            DW3ImagemUpload::salvar($this->foto, $nomeCompleto);
         }
     }
 
@@ -329,7 +379,6 @@ class Pergunta extends Modelo
         $comando->bindValue(9, $this->id, PDO::PARAM_INT);
         $comando->execute();
     }
-
 
     private function inserir()
     {
@@ -349,20 +398,45 @@ class Pergunta extends Modelo
         DW3BancoDeDados::getPdo()->commit();
     }
 
-    private function salvarImagem()
-    {
-        if (DW3ImagemUpload::isValida($this->foto)) {
-            $nomeCompleto = PASTA_PUBLICO . "img/{$this->id}.png";
-
-            DW3ImagemUpload::salvar($this->foto, $nomeCompleto);
-        }
-    }
-
     public static function destruir($id)
     {
         $comando = DW3BancoDeDados::prepare(self::DELETAR);
         $comando->bindValue(1, $id, PDO::PARAM_INT);
         $comando->execute();
+    }
+
+    public function atualizarAcertos($id)
+    {
+        $comando = DW3BancoDeDados::prepare(self::ATUALIZAR_ACERTOS);
+        $comando->bindValue(1, $this->acertos, PDO::PARAM_INT);
+        $comando->bindValue(2, $id, PDO::PARAM_INT);
+        $comando->execute();
+        $this->setAcertos(buscarAcertos($id));
+    }
+
+    public function buscarAcertos($id)
+    {
+        $comando = DW3BancoDeDados::prepare((self::BUSCA_ACERTOS));
+        $comando->bindValue(1, $id, PDO::PARAM_INT);
+        $acertos = $comando->execute();
+        return $acertos;
+    }
+
+    public function atualizarErros($id)
+    {
+        $comando = DW3BancoDeDados::prepare(self::ATUALIZAR_ERROS);
+        $comando->bindValue(1, $this->acertos, PDO::PARAM_INT);
+        $comando->bindValue(2, $id, PDO::PARAM_INT);
+        $comando->execute();
+        $this->setAcertos(buscarAcertos($id));
+    }
+
+    public function buscarErros($id)
+    {
+        $comando = DW3BancoDeDados::prepare((self::BUSCA_ERROS));
+        $comando->bindValue(1, $id, PDO::PARAM_INT);
+        $acertos = $comando->execute();
+        return $acertos;
     }
 
     public function embaralhaPerguntas($pergunta)
@@ -413,21 +487,5 @@ class Pergunta extends Modelo
                 $this->setAleatorios($posicao, $aleatorio);
                 return $pergunta->getAlternativaErrada4();
         }
-    }
-
-    protected function verificarErros()
-    {
-        if (strlen($this->pergunta) < 10 || strlen($this->pergunta) > 1000)
-            $this->setErroMensagem('pergunta', 'Mínimo 10 caracteres e maximo de 1000.');
-        if (strlen($this->alternativaCorreta) < 1 || strlen($this->alternativaCorreta) > 200)
-            $this->setErroMensagem('alternativacorreta', 'Mínimo 1 caracteres e maximo de 200.');
-        if (strlen($this->alternativaErrada1) < 1 || strlen($this->alternativaErrada1) > 200)
-            $this->setErroMensagem('alternativaErrada1', 'Mínimo 1 caracteres e maximo de 200.');
-        if  (strlen($this->alternativaErrada2) > 200)
-            $this->setErroMensagem('alternativaErrada2', 'Maximo de 200.');
-        if (strlen($this->alternativaErrada3) > 200)
-            $this->setErroMensagem('alternativaErrada3', 'Maximo de 200.');
-        if (strlen($this->alternativaErrada4) > 200)
-            $this->setErroMensagem('alternativaErrada4', 'Maximo de 200.');
     }
 }
