@@ -408,10 +408,15 @@ class Pergunta extends Modelo
     public function atualizarAcertos($id)
     {
         $comando = DW3BancoDeDados::prepare(self::ATUALIZAR_ACERTOS);
-        $comando->bindValue(1, $this->acertos, PDO::PARAM_INT);
+        if ($this->buscarAcertos($id) == 0)
+            $comando->bindValue(1, 1, PDO::PARAM_INT);
+        else {
+            $this->acertos = $this->buscarAcertos($id) + 1;
+            $comando->bindValue(1, $this->acertos, PDO::PARAM_INT);
+        }
         $comando->bindValue(2, $id, PDO::PARAM_INT);
         $comando->execute();
-        $this->setAcertos(buscarAcertos($id));
+        $this->setAcertos($this->buscarAcertos($id));
     }
 
     public function buscarAcertos($id)
@@ -425,10 +430,15 @@ class Pergunta extends Modelo
     public function atualizarErros($id)
     {
         $comando = DW3BancoDeDados::prepare(self::ATUALIZAR_ERROS);
-        $comando->bindValue(1, $this->acertos, PDO::PARAM_INT);
+        if ($this->buscarErros($id) == 0)
+            $comando->bindValue(1, 1, PDO::PARAM_INT);
+        else {
+            $this->erros = $this->buscarErros($id) + 1;
+            $comando->bindValue(1, $this->erros, PDO::PARAM_INT);
+        }
         $comando->bindValue(2, $id, PDO::PARAM_INT);
         $comando->execute();
-        $this->setAcertos(buscarAcertos($id));
+        $this->setAcertos($this->buscarErros($id));
     }
 
     public function buscarErros($id)

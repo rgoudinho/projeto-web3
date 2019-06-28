@@ -154,10 +154,10 @@ class PerguntaControlador extends Controlador
         if ($pergunta->getId_usuario() == $usuarioAtivo->getId_usuario()) {
             DW3Sessao::setFlash('mensagemFlash', 'O usuario que criou a pergunta não pode responde-lá.');
         } elseif ($pergunta->verificarResposta($resposta)) {
-            $pergunta->atualizaAcertos();
+            $pergunta->atualizarAcertos($pergunta->getId());
             DW3Sessao::setFlash('mensagemFlash', 'Resposta correta.');
         } else {
-            $pergunta->atualizaErros();
+            $pergunta->atualizarErros($pergunta->getId());
             DW3Sessao::setFlash('mensagemFlash', 'Resposta errada.');
         }
         $this->redirecionar(URL_RAIZ . 'perguntas');

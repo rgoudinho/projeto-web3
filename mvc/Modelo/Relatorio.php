@@ -6,29 +6,32 @@ use \Framework\DW3BancoDeDados;
 
 class Relatorio extends Modelo
 {
-    const BUSCARMAISACERTADAFACIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 1)';
-    const BUSCARMAISACERTADAMEDIA = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 2)';
-    const BUSCARMAISACERTADADIFICIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 3)';
-    const BUSCARMAISERRADAFACIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 1)';
-    const BUSCARMAISERRADAMEDIA = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 2)';
-    const BUSCARMAISERRADADIFICIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 3)';
+    const BUSCARMAISACERTADAFACIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 1)';
+    const BUSCARMAISACERTADAMEDIA = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 2)';
+    const BUSCARMAISACERTADADIFICIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 3)';
+    const BUSCARMAISERRADAFACIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 1)';
+    const BUSCARMAISERRADAMEDIA = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 2)';
+    const BUSCARMAISERRADADIFICIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 3)';
 
     private $nome;
     private $pergunta;
     private $acertos;
     private $erros;
+    private $tipo;
 
     public function __construct(
         $nome,
         $pergunta,
         $acertos,
-        $erros
+        $erros,
+        $tipo
     ) 
     { 
         $this->nome = $nome;
         $this->pergunta = $pergunta;
         $this->acertos = $acertos;
         $this->erros = $erros;
+        $this->tipo = $tipo;
     }
 
     public function getNome()
@@ -51,6 +54,11 @@ class Relatorio extends Modelo
         return $this->erros;
     }
 
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
     public function setNome($nome)
     {
         $this->nome = $nome;
@@ -71,15 +79,102 @@ class Relatorio extends Modelo
         $this->erros = $erros;
     }
 
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    }
+
     public static function buscarMaisAcertadaFacil()
     {
         $comando = DW3BancoDeDados::prepare(self::BUSCARMAISACERTADAFACIL);
         $comando->execute();
+        $pesquisa = $comando->fetch();
         $relatorio = new Relatorio(
-            $comando['nome'],
-            $comando['pergunta'],
-            $comando['acertos'],
-            $comando['erros']
+            $pesquisa['nome'],
+            $pesquisa['pergunta'],
+            $pesquisa['acertos'],
+            $pesquisa['erros'],
+            'Facíl - mais acertada'
+        );
+
+        return $relatorio;
+    }
+
+    public static function buscarMaisErradaFacil()
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCARMAISERRADAFACIL);
+        $comando->execute();
+        $pesquisa = $comando->fetch();
+        $relatorio = new Relatorio(
+            $pesquisa['nome'],
+            $pesquisa['pergunta'],
+            $pesquisa['acertos'],
+            $pesquisa['erros'],
+            'Facíl - mais errada'
+        );
+
+        return $relatorio;
+    }
+
+    public static function buscarMaisAcertadaMedia()
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCARMAISACERTADAMEDIA);
+        $comando->execute();
+        $pesquisa = $comando->fetch();
+        $relatorio = new Relatorio(
+            $pesquisa['nome'],
+            $pesquisa['pergunta'],
+            $pesquisa['acertos'],
+            $pesquisa['erros'],
+            'Média - mais acertada'
+        );
+
+        return $relatorio;
+    }
+
+    public static function buscarMaisErradaMedia()
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCARMAISERRADAMEDIA);
+        $comando->execute();
+        $pesquisa = $comando->fetch();
+        $relatorio = new Relatorio(
+            $pesquisa['nome'],
+            $pesquisa['pergunta'],
+            $pesquisa['acertos'],
+            $pesquisa['erros'],
+            'Média - mais errada'
+        );
+
+        return $relatorio;
+    }
+
+    public static function buscarMaisAcertadaDificil()
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCARMAISACERTADADIFICIL);
+        $comando->execute();
+        $pesquisa = $comando->fetch();
+        $relatorio = new Relatorio(
+            $pesquisa['nome'],
+            $pesquisa['pergunta'],
+            $pesquisa['acertos'],
+            $pesquisa['erros'],
+            'Difícil - mais acertada'
+        );
+
+        return $relatorio;
+    }
+
+    public static function buscarMaisErradaDificil()
+    {
+        $comando = DW3BancoDeDados::prepare(self::BUSCARMAISERRADADIFICIL);
+        $comando->execute();
+        $pesquisa = $comando->fetch();
+        $relatorio = new Relatorio(
+            $pesquisa['nome'],
+            $pesquisa['pergunta'],
+            $pesquisa['acertos'],
+            $pesquisa['erros'],
+            'Difícil - mais errada'
         );
 
         return $relatorio;

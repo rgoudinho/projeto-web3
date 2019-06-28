@@ -38,24 +38,31 @@
 <br>
 <div class="container">
     <div class="mx-auto">
-        <table class="table table-striped">
-            <p>Mais acertada</p>
-            <thead>
-                <tr>
-                    <th scope="col">Usuario</th>
-                    <th scope="col">Pergunta</th>
-                    <th scope="col">Acertos</th>
-                    <th scope="col">Erros</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th><?=$relatorio->getNome()?></th>
-                    <td><??></td>
-                    <td><??></td>
-                    <td><??></td>
-                </tr>
-            </tbody>
-        </table>
+        <?php foreach ($relatorio as $tabela) : ?>
+            <table class="table table-striped">
+                <div class="mx-auto">
+                    <h4>
+                        <?= $tabela->getTipo() ?>
+                    </h4>
+                </div>
+                <thead>
+                    <tr>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Pergunta</th>
+                        <th scope="col">Acertos</th>
+                        <th scope="col">Erros</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><?= $tabela->getNome() ?></th>
+                        <td><?= $tabela->getPergunta() ?></td>
+                        <td><?= $tabela->getAcertos() ?></td>
+                        <td><?= $tabela->getErros() ?></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+        <?php endforeach ?>
     </div>
 </div>
