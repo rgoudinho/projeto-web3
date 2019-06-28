@@ -1,7 +1,9 @@
 <div class="center-block site ">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <?php
-        if ($this->getUsuario() != null) : ?>
+use Modelo\Pergunta;
+
+if ($this->getUsuario() != null) : ?>
             <h1 class="navbar-brand" href="#"><?= $this->getUsuario()->getNome() ?></h1>
         <?php else : ?>
             <h1 class="navbar-brand" href="#">Sistema de perguntas</h1>
@@ -18,7 +20,7 @@
                     <a class="nav-link" href="perguntas/criar">Criar pergunta</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="perguntas/relatorio">Relatorio</a>
+                    <a class="nav-link" href="<?=URL_RAIZ . 'perguntas/relatorio'?>">Relatorio</a>
                 </li>
             </ul>
             <div class="my-2 my-lg-0">
@@ -62,7 +64,8 @@
                 </div>
             <?php endif ?>
         </div>
-        <?php foreach ($perguntas as $pergunta) : ?>
+        <?php
+        foreach ($perguntas as $pergunta) : ?>
             <div class="container">
                 <div class="card col-lg-8 mx-auto" style="background-color:#eee;">
 

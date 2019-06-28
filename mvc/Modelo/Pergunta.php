@@ -8,8 +8,8 @@ use \Modelo\Usuario;
 
 class Pergunta extends Modelo
 {
-    const BUSCAR_TODOS = 'SELECT * FROM perguntas ORDER BY id LIMIT ? OFFSET ?';
-    const BUSCAR_POR_DIFICULDADE = 'SELECT * FROM perguntas WHERE dificuldade = ? ORDER BY id LIMIT ? OFFSET ?';
+    const BUSCAR_TODOS = 'SELECT * FROM perguntas ORDER BY id DESC LIMIT ? OFFSET ?';
+    const BUSCAR_POR_DIFICULDADE = 'SELECT * FROM perguntas WHERE dificuldade = ? ORDER BY id DESC LIMIT ? OFFSET ?';
     const INSERIR = 'INSERT INTO perguntas(pergunta, alternativa_correta, alternativa_errada1, alternativa_errada2, alternativa_errada3, alternativa_errada4, dificuldade, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     const BUSCAR_PELO_ID = 'SELECT * FROM perguntas WHERE id = ? LIMIT 1';
     const DELETAR = 'DELETE FROM perguntas WHERE id = ?';

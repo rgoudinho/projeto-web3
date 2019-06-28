@@ -151,7 +151,6 @@ class PerguntaControlador extends Controlador
             DW3Sessao::setFlash('mensagemFlash', 'Vocẽ não pode editar perguntas que já foram respondidas.');
         } else {
             Pergunta::destruir($id);
-            $respostas->destruir($id);
             DW3Sessao::setFlash('mensagemFlash', 'Mensagem destruida.');
         }
         $this->redirecionar(URL_RAIZ . 'perguntas');
