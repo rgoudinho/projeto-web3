@@ -5,13 +5,13 @@
             <label for="nome">Nome</label>
             </br>
             <?php $this->incluirVisao('util/formErro.php', ['campo' => 'nome']) ?>
-            <input type="name" name="nome" class="form-control" id="nome" placeholder="Ronaldo Goudinho">
+            <input type="name" name="nome" class="form-control" id="nome" autofocus value="<?= $this->getPost('nome') ?>">
         </div>
         <div class="form-group <?= $this->getErroCss('email') ?>">
             <label class="control-label" for="email">Email *</label>
             </br>
             <?php $this->incluirVisao('util/formErro.php', ['campo' => 'email']) ?>
-            <input id="email" type="email" name="email" class="form-control" placeholder="email@example.com">
+            <input id="email" type="email" name="email" class="form-control" value="<?= $this->getPost('email') ?>">
         </div>
         <div class="form-group <?= $this->getErroCss('senha') ?>">
             <label for="senha">Senha *</label>

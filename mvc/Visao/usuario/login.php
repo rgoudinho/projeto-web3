@@ -3,11 +3,11 @@
     <form action="<?= URL_RAIZ . 'usuario/login' ?>" method="post">
         <div class="form-group <?= $this->getErroCss('login') ?>">
             <label for="email">Email</label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="email@example.com">
+            <input type="email" name="email" class="form-control" id="email" autofocus value="<?= $this->getPost('email') ?>">
         </div>
         <div class="form-group <?= $this->getErroCss('login') ?>">
             <label for="senha">Senha</label>
-            <input type="password" name="senha" class="form-control" id="senha" placeholder="Senha">
+            <input type="password" name="senha" class="form-control" id="senha" >
         </div>
         <div class="form-group text-danger text-center">
             <?php $this->incluirVisao('util/formErro.php', ['campo' => 'login']) ?>
