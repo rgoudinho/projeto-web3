@@ -6,12 +6,12 @@ use \Framework\DW3BancoDeDados;
 
 class Relatorio extends Modelo
 {
-    const BUSCARMAISACERTADAFACIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 1)';
-    const BUSCARMAISACERTADAMEDIA = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 2)';
-    const BUSCARMAISACERTADADIFICIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 3)';
-    const BUSCARMAISERRADAFACIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 1)';
-    const BUSCARMAISERRADAMEDIA = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 2)';
-    const BUSCARMAISERRADADIFICIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 3)';
+    const BUSCAR_MAIS_ACERTADA_FACIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 1)';
+    const BUSCAR_MAIS_ACERTADA_MEDIA = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 2)';
+    const BUSCAR_MAIS_ACERTADA_DIFICIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND acertos = (SELECT MAX(acertos) FROM perguntas WHERE dificuldade = 3)';
+    const BUSCAR_MAIS_ERRADA_FACIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 1)';
+    const BUSCAR_MAIS_ERRADA_MEDIA = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 2)';
+    const BUSCAR_MAIS_ERRADA_DIFICIL = 'SELECT nome, pergunta, acertos, erros FROM usuarios JOIN perguntas WHERE perguntas.id_usuario = usuarios.id AND erros = (SELECT MAX(erros) FROM perguntas WHERE dificuldade = 3)';
 
     private $nome;
     private $pergunta;

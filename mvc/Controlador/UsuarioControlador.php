@@ -16,10 +16,15 @@ class UsuarioControlador extends Controlador
         
         if($usuario->isValido()){
             $usuario->salvar();
-            $this->redirecionar(URL_RAIZ . 'usuario/login');
+            $this->redirecionar(URL_RAIZ . 'usuario/sucesso');
         } else {
             $this->setErros($usuario->getValidacaoErros());
             $this->visao('usuario/cadastrar.php');
         }
+    }
+
+    public function sucesso()
+    {
+        $this->visao('usuario/sucesso.php');
     }
 }

@@ -23,6 +23,10 @@ $rotas = [
         'POST' => '\Controlador\UsuarioControlador#armazenar',
     ],
 
+    '/usuario/sucesso' => [
+        'GET' => '\Controlador\UsuarioControlador#sucesso',
+    ],
+
     '/usuario/login' => [
         'GET' => '\Controlador\LoginControlador#login',
         'POST' => '\Controlador\LoginControlador#armazenar',
