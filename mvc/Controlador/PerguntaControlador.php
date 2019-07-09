@@ -99,9 +99,6 @@ class PerguntaControlador extends Controlador
         if ($pergunta->verificaUsuarioPergunta($id, $usuario) == false) {
             DW3Sessao::setFlash('mensagemFlash', 'Vocẽ não pode editar ou excluir perguntas de outros usuarios.');
             $this->redirecionar(URL_RAIZ . 'perguntas');
-        } elseif ($respostas->perguntaJaRespondida()) {
-            DW3Sessao::setFlash('mensagemFlash', 'Vocẽ não pode editar perguntas que já foram respondidas.');
-            $this->redirecionar(URL_RAIZ . 'perguntas');
         } else {
             $this->visao('perguntas/editar.php', [
                 'pergunta' => $pergunta
@@ -147,10 +144,9 @@ class PerguntaControlador extends Controlador
 
         if ($usuarioPergunta->getId_usuario() != $usuarioLogado->getId_usuario()) {
             DW3Sessao::setFlash('mensagemFlash', 'Você não pode deletar as mensagens dos outros.');
-        } elseif ($respostas->perguntaJaRespondida()) {
-            DW3Sessao::setFlash('mensagemFlash', 'Vocẽ não pode editar perguntas que já foram respondidas.');
         } else {
             Pergunta::destruir($id);
+            $respostas->destruir();
             DW3Sessao::setFlash('mensagemFlash', 'Mensagem destruida.');
         }
         $this->redirecionar(URL_RAIZ . 'perguntas');

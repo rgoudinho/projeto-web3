@@ -86,4 +86,11 @@ class Respostas extends Modelo
         }
         return true;
     }
+    
+    public function destrui($id_pergunta)
+    {
+        $comando = DW3BancoDeDados::prepare(self::DELETAR);
+        $comando->bindValue(1, $id_pergunta, PDO::PARAM_INT);
+        $comando->execute();
+    }
 }
