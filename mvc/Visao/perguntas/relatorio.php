@@ -11,13 +11,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="perguntas">Home</a>
+                <a class="nav-link" href="<?= URL_RAIZ . 'perguntas'?>">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="perguntas/criar">Criar pergunta</a>
+                <a class="nav-link" href="<?= URL_RAIZ . 'perguntas/criar'?>">Criar pergunta</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="perguntas/relatorio">Relatorio</a>
+                <a class="nav-link" href="<?= URL_RAIZ . 'perguntas/relatorio'?>>Relatorio</a>
             </li>
         </ul>
         <div class="my-2 my-lg-0">

@@ -1,4 +1,5 @@
 <?php
+
 namespace Modelo;
 
 use \PDO;
@@ -10,7 +11,7 @@ class Pergunta extends Modelo
 {
     const BUSCAR_TODOS = 'SELECT * FROM perguntas ORDER BY id DESC LIMIT ? OFFSET ?';
     const BUSCAR_POR_DIFICULDADE = 'SELECT * FROM perguntas WHERE dificuldade = ? ORDER BY id DESC LIMIT ? OFFSET ?';
-    const INSERIR = 'INSERT INTO perguntas(pergunta, alternativa_correta, alternativa_errada1, alternativa_errada2, alternativa_errada3, alternativa_errada4, dificuldade, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const INSERIR = 'INSERT INTO perguntas(pergunta, alternativa_correta, alternativa_errada1, alternativa_errada2, alternativa_errada3, alternativa_errada4, dificuldade, id_usuario, acertos, erros) VALUES (?, ?, ?, ?, ?, ?, ?, ?,0,0)';
     const BUSCAR_PELO_ID = 'SELECT * FROM perguntas WHERE id = ? LIMIT 1';
     const DELETAR = 'DELETE FROM perguntas WHERE id = ?';
     const ATUALIZAR = 'UPDATE perguntas SET pergunta = ?, alternativa_correta = ?, alternativa_errada1 = ?, alternativa_errada2 = ?, alternativa_errada3 = ?, alternativa_errada4 = ?, dificuldade = ?, id_usuario = ? WHERE id = ?';
@@ -407,13 +408,9 @@ class Pergunta extends Modelo
 
     public function atualizarAcertos($id)
     {
+        $this->acertos = $this->buscarAcertos($id) + 1;
         $comando = DW3BancoDeDados::prepare(self::ATUALIZAR_ACERTOS);
-        if ($this->buscarAcertos($id) == 0)
-            $comando->bindValue(1, 1, PDO::PARAM_INT);
-        else {
-            $this->acertos = $this->buscarAcertos($id) + 1;
-            $comando->bindValue(1, $this->acertos, PDO::PARAM_INT);
-        }
+        $comando->bindValue(1, $this->acertos, PDO::PARAM_INT);
         $comando->bindValue(2, $id, PDO::PARAM_INT);
         $comando->execute();
         $this->setAcertos($this->buscarAcertos($id));
@@ -423,19 +420,16 @@ class Pergunta extends Modelo
     {
         $comando = DW3BancoDeDados::prepare((self::BUSCA_ACERTOS));
         $comando->bindValue(1, $id, PDO::PARAM_INT);
-        $acertos = $comando->execute();
-        return $acertos;
+        $comando->execute();
+        $pesquisa = $comando->fetch();
+        return $pesquisa[0];
     }
 
     public function atualizarErros($id)
     {
+        $this->erros = $this->buscarErros($id) + 1;
         $comando = DW3BancoDeDados::prepare(self::ATUALIZAR_ERROS);
-        if ($this->buscarErros($id) == 0)
-            $comando->bindValue(1, 1, PDO::PARAM_INT);
-        else {
-            $this->erros = $this->buscarErros($id) + 1;
-            $comando->bindValue(1, $this->erros, PDO::PARAM_INT);
-        }
+        $comando->bindValue(1, $this->erros, PDO::PARAM_INT);
         $comando->bindValue(2, $id, PDO::PARAM_INT);
         $comando->execute();
         $this->setAcertos($this->buscarErros($id));
@@ -445,8 +439,9 @@ class Pergunta extends Modelo
     {
         $comando = DW3BancoDeDados::prepare((self::BUSCA_ERROS));
         $comando->bindValue(1, $id, PDO::PARAM_INT);
-        $acertos = $comando->execute();
-        return $acertos;
+        $comando->execute();
+        $pesquisa = $comando->fetch();
+        return $pesquisa[1];
     }
 
     public function embaralhaPerguntas($pergunta)

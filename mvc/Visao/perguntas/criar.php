@@ -24,37 +24,37 @@
                 <br>
                 <br>
                 <?php $this->incluirVisao('util/formErro.php', ['campo' => 'pergunta']) ?>
-                <input type="text" class="form-control" id="pergunta" name="pergunta" placeholder="Qual é a capital do estado de São Paulo?">
+                <input type="text" class="form-control" id="pergunta" name="pergunta" value="<?= $this->getPost('pergunta') ?>">
             </div>
             <div class="form-group <?= $this->getErroCss('alternativacorreta') ?>">
                 <label for="respostaCorreta">Resposta correta*</label>
                 <br>
                 <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativacorreta']) ?>
-                <input type="text" class="form-control" name="resposta-correta" id="resposta-correta" placeholder="São Paulo">
+                <input type="text" class="form-control" name="resposta-correta" id="resposta-correta" value="<?= $this->getPost('resposta-correta') ?>">
             </div>
             <div class="form-group <?= $this->getErroCss('alternativaErrada1') ?>">
                 <label for="respostaErrada1">Primeira resposta errada*</label>
                 <br>
                 <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativaErrada1']) ?>
-                <input type="text" class="form-control" name="resposta-errada1" id="resposta-errada1" placeholder="Guarulhos">
+                <input type="text" class="form-control" name="resposta-errada1" id="resposta-errada1" value="<?= $this->getPost('resposta-errada1') ?>">
             </div>
             <div class="form-group <?= $this->getErroCss('alternativaErrada2') ?>">
                 <label for="respostaErrada2">Segunda resposta errada</label>
                 <br>
                 <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativaErrada2']) ?>
-                <input type="text" class="form-control" name="resposta-errada2" id="resposta-errada2" placeholder="Campinas">
+                <input type="text" class="form-control" name="resposta-errada2" id="resposta-errada2"  value="<?= $this->getPost('resposta-errada2') ?>">
             </div>
             <div class="form-group <?= $this->getErroCss('alternativaErrada3') ?>">
                 <label for="respostaErrada3">Terceira resposta errada</label>
                 <br>
                 <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativaErrada3']) ?>
-                <input type="text" class="form-control" name="resposta-errada3" id="resposta-errada3" placeholder="São Bernardo do Campo">
+                <input type="text" class="form-control" name="resposta-errada3" id="resposta-errada3"  value="<?= $this->getPost('resposta-errada3') ?>">
             </div>
             <div class="form-group <?= $this->getErroCss('alternativaErrada4') ?>">
                 <label for="respostaErrada4">Quarta resposta errada</label>
                 <br>
                 <?php $this->incluirVisao('util/formErro.php', ['campo' => 'alternativaErrada4']) ?>
-                <input type="text" class="form-control" name="resposta-errada4" id="resposta-errada4" placeholder="Santo André">
+                <input type="text" class="form-control" name="resposta-errada4" id="resposta-errada4"  value="<?= $this->getPost('resposta-errada4placeholder="Santo André"') ?>">
             </div>
             <label for="my-1 mr-2">Selecione o nivel de dificuldade</label>
             <select id="dificuldade" name="dificuldade" class="custom-select col-sm-2 col-lg-2">
