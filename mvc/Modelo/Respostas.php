@@ -73,19 +73,6 @@ class Respostas extends Modelo
         }
         return true;
     }
-
-    public function perguntaJaRespondida()
-    {
-        $comando = DW3BancoDeDados::prepare(self::PERGUNTAJARESPONDIDA);
-        $comando->bindValue(1, $this->idPergunta, PDO::PARAM_INT);
-        $comando->execute();
-        $pesquisa = $comando->fetch();
-
-        if($pesquisa == null) {
-            return false;
-        }
-        return true;
-    }
     
     public function destrui($id_pergunta)
     {
